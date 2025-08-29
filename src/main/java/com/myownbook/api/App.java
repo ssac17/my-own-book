@@ -1,4 +1,4 @@
-package com.myownbook.api.myownbook;
+package com.myownbook.api;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
