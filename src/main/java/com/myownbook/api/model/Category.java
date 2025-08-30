@@ -8,7 +8,12 @@ public enum Category {
     HUMANITIES,
     HISTORY,
     ART,
+    POEM,
     HOBBY,
     CHILDREN,
-    CARTOON
+    CARTOON,
+    UNDETERMINED,
+
+
+
 }

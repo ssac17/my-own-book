@@ -1,11 +1,10 @@
 package com.myownbook.api.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-
-import java.time.LocalDate;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.Pattern;
+import org.hibernate.validator.constraints.ISBN;
 
 @Entity
 @Table(name = "book")
@@ -15,15 +14,88 @@ public class Book {
     @GeneratedValue
     private Long id;
 
+    @Column(nullable = false, length = 50)
     private String title;
 
+    @Column(nullable = false, length = 20)
     private String author;
 
+    @Column(length = 20)
     private String isbn;
 
-    private LocalDate publicationDate;
+    @Pattern(regexp = "^\\d{4}$", message = "'yyyy' 형식으로 년도만 입력해 주세요.")
+    private String publicationDate;
 
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private Category category;
 
-    private byte recommend;
+    @Min(value = 0, message = "최소 0점부터 입력이 가능합니다.")
+    @Max(value = 5, message = "최대 5점까지 입력이 가능합니다.")
+    private byte recommend = 0;
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
+    public String getIsbn() {
+        return isbn;
+    }
+
+    public void setIsbn(String isbn) {
+        this.isbn = isbn;
+    }
+
+    public String getPublicationDate() {
+        return publicationDate;
+    }
+
+    public void setPublicationDate(String publicationDate) {
+        this.publicationDate = publicationDate;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
+    public byte getRecommend() {
+        return recommend;
+    }
+
+    public void setRecommend(byte recommend) {
+        this.recommend = recommend;
+    }
+
+    @Override
+    public String toString() {
+        return "Book{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", author='" + author + '\'' +
+                ", isbn='" + isbn + '\'' +
+                ", publicationDate=" + publicationDate +
+                ", category=" + category +
+                ", recommend=" + recommend +
+                '}';
+    }
 }

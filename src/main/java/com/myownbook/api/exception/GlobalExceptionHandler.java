@@ -2,11 +2,9 @@ package com.myownbook.api.exception;
 
 import com.myownbook.api.exception.errorcode.CommonErrorCode;
 import com.myownbook.api.exception.errorcode.ErrorCode;
-import org.slf4j.ILoggerFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindException;
