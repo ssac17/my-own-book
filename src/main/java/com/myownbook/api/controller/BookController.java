@@ -25,9 +25,7 @@ public class BookController {
 
     @PostMapping("/add")
     public ResponseEntity<Book> add(@RequestBody @Valid BookDTO bookDTO) {
-        log.info("bookDTO = {}", bookDTO);
         Book addBook = service.insert(bookDTO);
-        log.info("addBook = {}", addBook);
         return ResponseEntity.status(HttpStatus.CREATED).body(addBook);
     }
 
@@ -36,5 +34,15 @@ public class BookController {
         log.info("findAll");
         List<Book> books = service.all();
         return ResponseEntity.status(HttpStatus.OK).body(books);
+    }
+
+    @GetMapping("/id/{id}")
+    public Book getBook(@PathVariable Long id) {
+        return service.findById(id);
+    }
+
+    @GetMapping("/isbn/{isbn}")
+    public Book getBook(@PathVariable String isbn) {
+        return service.findByIsbn(isbn);
     }
 }

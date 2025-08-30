@@ -34,6 +34,18 @@ public class BookService {
         return repository.findAll();
     }
 
+    public Book findById(Long id) {
+        return repository.findById(id).orElseThrow(() ->
+                new IllegalArgumentException("해당 id의 도서가 존재하지 않습니다."));
+    }
+
+    public Book findByIsbn(String isbn) {
+        Book findBook = repository.findByIsbn(isbn);
+        if(Objects.isNull(findBook)) {
+            throw new IllegalArgumentException("해당 isbn의 도서가 존재하지 않습니다.");
+        }
+        return findBook;
+    }
 
     private Category setCategory(BookDTO bookDTO) {
         //중목 제목 확인
