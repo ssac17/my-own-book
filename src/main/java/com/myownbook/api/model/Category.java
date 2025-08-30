@@ -3,6 +3,8 @@ package com.myownbook.api.model;
 public enum Category {
     COMPUTER,
     IT,
+    NOVEL,
+    MYSTERY,
     SCIENCE,
     ESSAY,
     HUMANITIES,
@@ -13,7 +15,5 @@ public enum Category {
     CHILDREN,
     CARTOON,
     UNDETERMINED,
-
-
 
 }

@@ -10,8 +10,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
-@RequestMapping("/book")
+@RequestMapping("/books")
 public class BookController {
 
     private BookService service;
@@ -27,5 +29,12 @@ public class BookController {
         Book addBook = service.insert(bookDTO);
         log.info("addBook = {}", addBook);
         return ResponseEntity.status(HttpStatus.CREATED).body(addBook);
+    }
+
+    @GetMapping("/")
+    public ResponseEntity<List<Book>> findAll() {
+        log.info("findAll");
+        List<Book> books = service.all();
+        return ResponseEntity.status(HttpStatus.OK).body(books);
     }
 }

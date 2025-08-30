@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Objects;
 
 @Service
@@ -22,14 +23,15 @@ public class BookService {
     }
 
     public Book insert(BookDTO bookDTO) {
-        log.info("service bookDTO = {}", bookDTO);
-
         Book newBook = new Book();
         BeanUtils.copyProperties(bookDTO, newBook);
         newBook.setCategory(setCategory(bookDTO));
-        log.info("service newBook = {}", newBook);
 
         return repository.save(newBook);
+    }
+
+    public List<Book> all() {
+        return repository.findAll();
     }
 
 
