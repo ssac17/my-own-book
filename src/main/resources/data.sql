@@ -1,0 +1,10 @@
+insert into book(id, title, author, category, isbn, publication_date, recommend) values (1, '하늘과 바람과 별과 시', '윤동주', 'POEM', '978-161-729-045-9', '1948', 1);
+insert into book(id, title, author, category, isbn, publication_date, recommend) values (2, '가면산장 살인사건', '히가시노 게이고', 'MYSTERY', '978-899-098-257-5', '2014', 4);
+insert into book(id, title, author, category, isbn, publication_date, recommend) values (3, '호의에 대하여', '문형배', 'ESSAY', '979-117-332-302-7', '2025', 4);
+insert into book(id, title, author, category, isbn, publication_date, recommend) values (4, '가공범', '히가시노 게이고', 'MYSTERY', '979-117-061-275-9', '2025', 4);
+insert into book(id, title, author, category, isbn, publication_date, recommend) values (5, '내가 없던 어느 밤에', '이꽃잎', 'HUMANITIES', '979-116-755-330-0', '2025', 4);
+insert into book(id, title, author, category, isbn, publication_date, recommend) values (6, '첫 여름, 완주', '김금희', 'NOVEL', '979-119-722-198-9', '2025', 4);
+insert into book(id, title, author, category, isbn, publication_date, recommend) values (7, '혼자 공부하는 파이썬', '윤인성', 'IT', '979-116-224-565-1', '2022', 3);
+insert into book(id, title, author, category, isbn, publication_date, recommend) values (8, '치즈 이야기', '조예은', 'NOVEL', '979-114-160-256-7', '2025', 4);
+insert into book(id, title, author, category, isbn, publication_date, recommend) values (9, '채식주의자', '한강', 'NOVEL', '978-893-643-459-5', '2022', 5);
+insert into book(id, title, author, category, isbn, publication_date, recommend) values (10, '주술회전 30 더블특장판', '아쿠타미 게게', 'CARTOON', '979-114-280-355-0', '2025', 4);
