@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 
 @Service
 public class BookService {
@@ -36,8 +35,7 @@ public class BookService {
     }
 
     public Book findById(Long id) {
-        return repository.findById(id).orElseThrow(() ->
-                new IllegalArgumentException("해당 id의 도서가 존재하지 않습니다."));
+        return findBook(id);
     }
 
     public Book findByIsbn(String isbn) {
@@ -48,10 +46,16 @@ public class BookService {
         return findBook;
     }
 
+    public Book updateBook(Long id, BookDTO bookDTO) {
+        Book findBook = findBook(id);
+        BeanUtils.copyProperties(bookDTO, findBook);
+        return repository.save(findBook);
+    }
+
     public String deleteBook(Long id) {
-        Book findbook = repository.findById(id).orElseThrow(() -> new IllegalArgumentException(id + "의 등록된 도서가 없습니다."));
+        Book findBook = findBook(id);
         repository.deleteById(id);
-        return findbook.getTitle();
+        return findBook.getTitle();
     }
 
     private Category setCategory(BookDTO bookDTO) {
@@ -74,5 +78,9 @@ public class BookService {
         }
         categoryTypes.delete(categoryTypes.length() - 3, categoryTypes.length());
         throw new IllegalArgumentException("유효한 카테고리를 입력해주세요 = " + "{ " + categoryTypes + " }");
+    }
+
+    private Book findBook(Long id) {
+        return repository.findById(id).orElseThrow(() -> new IllegalArgumentException("해당 id의 도서가 존재하지 않습니다."));
     }
 }

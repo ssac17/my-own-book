@@ -47,6 +47,11 @@ public class BookController {
         return service.findByIsbn(isbn);
     }
 
+    @PatchMapping("/{id}")
+    public Book updateBook(@PathVariable Long id, @RequestBody @Valid BookDTO bookDTO) {
+        return service.updateBook(id, bookDTO);
+    }
+
     @DeleteMapping("/{id}")
     private ResponseEntity<Map<String, String>> deleteBook(@PathVariable Long id) {
         String deletedBookTitle = service.deleteBook(id);
