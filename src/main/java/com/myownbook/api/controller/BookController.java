@@ -6,6 +6,7 @@ import com.myownbook.api.model.BookDTO;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -31,9 +32,8 @@ public class BookController {
     }
 
     @GetMapping("/")
-    public ResponseEntity<List<Book>> findAll() {
-        log.info("findAll");
-        List<Book> books = service.all();
+    public ResponseEntity<Page<Book>> findAll() {
+        Page<Book> books = service.all();
         return ResponseEntity.status(HttpStatus.OK).body(books);
     }
 

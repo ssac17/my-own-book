@@ -7,9 +7,10 @@ import com.myownbook.api.repository.BookRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 import java.util.Objects;
 
 @Service
@@ -30,8 +31,9 @@ public class BookService {
         return repository.save(newBook);
     }
 
-    public List<Book> all() {
-        return repository.findAll();
+    public Page<Book> all() {
+        PageRequest pageRequest = PageRequest.of(0, 5, Sort.by(Sort.Direction.DESC, "id"));
+        return repository.findAll(pageRequest);
     }
 
     public Book findById(Long id) {
