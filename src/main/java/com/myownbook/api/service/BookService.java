@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 @Service
 public class BookService {
@@ -45,6 +46,12 @@ public class BookService {
             throw new IllegalArgumentException("해당 isbn의 도서가 존재하지 않습니다.");
         }
         return findBook;
+    }
+
+    public String deleteBook(Long id) {
+        Book findbook = repository.findById(id).orElseThrow(() -> new IllegalArgumentException(id + "의 등록된 도서가 없습니다."));
+        repository.deleteById(id);
+        return findbook.getTitle();
     }
 
     private Category setCategory(BookDTO bookDTO) {

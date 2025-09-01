@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/books")
@@ -44,5 +45,11 @@ public class BookController {
     @GetMapping("/isbn/{isbn}")
     public Book getBook(@PathVariable String isbn) {
         return service.findByIsbn(isbn);
+    }
+
+    @DeleteMapping("/{id}")
+    private ResponseEntity<Map<String, String>> deleteBook(@PathVariable Long id) {
+        String deletedBookTitle = service.deleteBook(id);
+        return ResponseEntity.ok().body(Map.of(deletedBookTitle, "삭제 되었습니다"));
     }
 }
