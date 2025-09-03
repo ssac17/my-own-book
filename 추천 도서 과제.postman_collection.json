@@ -1,0 +1,203 @@
+{
+	"info": {
+		"_postman_id": "87f9f3ab-89c9-4ad8-ad2a-b5f4ad91c6ab",
+		"name": "추천 도서 과제",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "30511714"
+	},
+	"item": [
+		{
+			"name": "도서 등록",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"title\": \"공허의 시대\",\n    \"author\": \"조남호\",\n    \"category\": \"HOBBY\",\n    \"isbn\": \"978-890-129-700-2\",\n    \"publicationDate\": \"2025\",\n    \"recommend\": 2\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/books/add",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"books",
+						"add"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "전체 조회",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"title\": \"하늘과 바람과 별과 시\",\n    \"author\": \"윤동주\",\n    \"category\": \"POEM\",\n    \"isbn\": \"978-161-729-045-9\",\n    \"publicationDate\": \"1948\",\n    \"recommend\": 1\n}"
+				},
+				"url": {
+					"raw": "localhost:8080/books/",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"books",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "id로 도서 조회",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"title\": \"하늘과 바람과 별과 시\",\n    \"author\": \"윤동주\",\n    \"category\": \"POEM\",\n    \"isbn\": \"978-161-729-045-9\",\n    \"publicationDate\": \"1948\",\n    \"recommend\": 1\n}"
+				},
+				"url": {
+					"raw": "localhost:8080/books/id/1",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"books",
+						"id",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "isbn로 도서 조회",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"title\": \"하늘과 바람과 별과 시\",\n    \"author\": \"윤동주\",\n    \"category\": \"POEM\",\n    \"isbn\": \"978-161-729-045-9\",\n    \"publicationDate\": \"1948\",\n    \"recommend\": 1\n}"
+				},
+				"url": {
+					"raw": "localhost:8080/books/isbn/978-899-098-257-5",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"books",
+						"isbn",
+						"978-899-098-257-5"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "도서 삭제",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"title\": \"가면산장 살인사건\",\n    \"author\": \"히가시노 게이고\",\n    \"category\": \"MYSTERY\",\n    \"isbn\": \"978-899-098-257-5\",\n    \"publicationDate\": \"2014\",\n    \"recommend\": 5\n}"
+				},
+				"url": {
+					"raw": "localhost:8080/books/1",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"books",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "도서 수정",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"title\": \"공허의 시대 수정\",\n    \"author\": \"조남호\",\n    \"category\": \"HOBBY\",\n    \"isbn\": \"978-890-129-700-2\",\n    \"publicationDate\": \"2025\",\n    \"recommend\": 3\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/books/11",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"books",
+						"11"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "검색 조회",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/books?recommend=-1",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"books"
+					],
+					"query": [
+						{
+							"key": "author",
+							"value": "윤",
+							"disabled": true
+						},
+						{
+							"key": "category",
+							"value": "it",
+							"disabled": true
+						},
+						{
+							"key": "recommend",
+							"value": "-1"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
