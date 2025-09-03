@@ -1,5 +1,6 @@
 package com.myownbook.api.controller;
 
+import com.myownbook.api.dto.BookSearchCondition;
 import com.myownbook.api.service.BookService;
 import com.myownbook.api.model.Book;
 import com.myownbook.api.model.BookDTO;
@@ -11,7 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+
 import java.util.Map;
 
 @RestController
@@ -31,9 +32,9 @@ public class BookController {
         return ResponseEntity.status(HttpStatus.CREATED).body(addBook);
     }
 
-    @GetMapping("/")
-    public ResponseEntity<Page<Book>> findAll() {
-        Page<Book> books = service.all();
+    @GetMapping()
+    public ResponseEntity<Page<Book>> findAll(BookSearchCondition condition) {
+        Page<Book> books = service.all(condition);
         return ResponseEntity.status(HttpStatus.OK).body(books);
     }
 

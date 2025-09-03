@@ -1,9 +1,11 @@
 package com.myownbook.api.service;
 
+import com.myownbook.api.dto.BookSearchCondition;
 import com.myownbook.api.model.Book;
 import com.myownbook.api.model.BookDTO;
 import com.myownbook.api.model.Category;
 import com.myownbook.api.repository.BookRepository;
+import org.apache.logging.log4j.util.Strings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -11,6 +13,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+
 import java.util.Objects;
 
 @Service
@@ -31,9 +34,8 @@ public class BookService {
         return repository.save(newBook);
     }
 
-    public Page<Book> all() {
-        PageRequest pageRequest = PageRequest.of(0, 5, Sort.by(Sort.Direction.DESC, "id"));
-        return repository.findAll(pageRequest);
+    public Page<Book> all(BookSearchCondition condition) {
+        return searchBook(condition);
     }
 
     public Book findById(Long id) {
@@ -84,5 +86,20 @@ public class BookService {
 
     private Book findBook(Long id) {
         return repository.findById(id).orElseThrow(() -> new IllegalArgumentException("해당 id의 도서가 존재하지 않습니다."));
+    }
+
+    private Page<Book> searchBook(BookSearchCondition condition) {
+        PageRequest pageRequest = PageRequest.of(0, 5, Sort.by(Sort.Direction.DESC, "id"));
+        if(Strings.isNotEmpty(condition.getTitle())) {
+            return repository.findByTitleContaining(condition.getTitle(), pageRequest);
+        }
+        if(Strings.isNotEmpty(condition.getAuthor())) {
+            return repository.findByAuthorContaining(condition.getAuthor(), pageRequest);
+        }
+        if(Strings.isNotEmpty(condition.getCategory())) {
+            Category categoryValue = Category.valueOf(condition.getCategory().toUpperCase());
+            return repository.findByCategoryLike(categoryValue, pageRequest);
+        }
+        return repository.findAll(pageRequest);
     }
 }
