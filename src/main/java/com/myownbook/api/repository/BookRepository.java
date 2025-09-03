@@ -15,4 +15,5 @@ public interface BookRepository extends JpaRepository<Book, Long>{
     Page<Book> findByTitleContaining(String title, Pageable pageable);
     Page<Book> findByAuthorContaining(String author, Pageable pageable);
     Page<Book> findByCategoryLike(Category category, Pageable pageable);
+    Page<Book> findByRecommendGreaterThanEqual(byte recommend, Pageable pageable);
 }

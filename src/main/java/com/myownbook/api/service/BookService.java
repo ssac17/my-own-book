@@ -89,6 +89,7 @@ public class BookService {
     }
 
     private Page<Book> searchBook(BookSearchCondition condition) {
+        log.info("condition = {}", condition);
         PageRequest pageRequest = PageRequest.of(0, 5, Sort.by(Sort.Direction.DESC, "id"));
         if(Strings.isNotEmpty(condition.getTitle())) {
             return repository.findByTitleContaining(condition.getTitle(), pageRequest);
@@ -99,6 +100,10 @@ public class BookService {
         if(Strings.isNotEmpty(condition.getCategory())) {
             Category categoryValue = Category.valueOf(condition.getCategory().toUpperCase());
             return repository.findByCategoryLike(categoryValue, pageRequest);
+        }
+        byte recommend = condition.getRecommend();
+        if(recommend >= 0 && recommend <= 5) {
+            return repository.findByRecommendGreaterThanEqual(recommend, pageRequest);
         }
         return repository.findAll(pageRequest);
     }

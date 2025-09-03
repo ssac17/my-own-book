@@ -33,7 +33,7 @@ public class BookController {
     }
 
     @GetMapping()
-    public ResponseEntity<Page<Book>> findAll(BookSearchCondition condition) {
+    public ResponseEntity<Page<Book>> findAll(@Valid BookSearchCondition condition) {
         Page<Book> books = service.all(condition);
         return ResponseEntity.status(HttpStatus.OK).body(books);
     }
