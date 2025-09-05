@@ -52,7 +52,24 @@ public class BookService {
 
     public Book updateBook(Long id, BookDTO bookDTO) {
         Book findBook = findBook(id);
-        BeanUtils.copyProperties(bookDTO, findBook);
+        if (bookDTO.getTitle() != null) {
+            findBook.setTitle(bookDTO.getTitle());
+        }
+        if (bookDTO.getAuthor() != null) {
+            findBook.setAuthor(bookDTO.getAuthor());
+        }
+        if (bookDTO.getIsbn() != null) { // ISBN 같은 필드들도 null 체크
+            findBook.setIsbn(bookDTO.getIsbn());
+        }
+        if (bookDTO.getPublicationDate() != null) {
+            findBook.setPublicationDate(bookDTO.getPublicationDate());
+        }
+        if (bookDTO.getCategory() != null) {
+            findBook.setCategory(Category.valueOf(bookDTO.getCategory()));
+        }
+        if (bookDTO.getRecommend() != null) { // Byte로 바꿨으니 null 체크 가능
+            findBook.setRecommend(bookDTO.getRecommend());
+        }
         return repository.save(findBook);
     }
 

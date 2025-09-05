@@ -33,3 +33,18 @@ spring:
     web:
       pageable:
         serialization-mode: via_dto
+
+springdoc:
+  swagger-ui:
+    tags-sorter: alpha
+    operations-sorter: alpha
+    disable-swagger-default-url: true
+    display-request-duration: true
+    default-model-expand-depth: 2
+  show-actuator: true
+  default-consumes-media-type: application/json
+  default-produces-media-type: application/json
+  model-and-view-allowed: true
+  paths-to-match:
+    - /books/**
+

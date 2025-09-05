@@ -4,6 +4,14 @@ import com.myownbook.api.dto.BookSearchCondition;
 import com.myownbook.api.service.BookService;
 import com.myownbook.api.model.Book;
 import com.myownbook.api.model.BookDTO;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,6 +23,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
+@Tag(name = "Book API", description = "도서 관리 API")
 @RestController
 @RequestMapping("/books")
 public class BookController {
@@ -27,33 +36,86 @@ public class BookController {
     }
 
     @PostMapping("/add")
+    @Operation(summary = "도서 생성", description = "새로운 도서를 등록합니다.", operationId = "1_addBook")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "success", content = {@Content(schema = @Schema(implementation = Book.class))}),
+            @ApiResponse(responseCode = "400", description = "bad request")
+    })
     public ResponseEntity<Book> add(@RequestBody @Valid BookDTO bookDTO) {
         Book addBook = service.insert(bookDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(addBook);
     }
 
     @GetMapping()
+    @Operation(summary = "도서 리스트 조회", description = "전체 도서 목록을 조회합니다, title, author, category, recommend 별로 검색이 가능합니다.", operationId = "2_getListBook")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "success"),
+            @ApiResponse(responseCode = "400", description = "bad request")
+    })
     public ResponseEntity<Page<Book>> findAll(@Valid BookSearchCondition condition) {
         Page<Book> books = service.all(condition);
         return ResponseEntity.status(HttpStatus.OK).body(books);
     }
 
     @GetMapping("/id/{id}")
-    public Book getBook(@PathVariable Long id) {
+    @Operation(summary = "도서 상세 조회 - id", description = "id에 해당하는 도서 상세를 조회힙니다.", operationId = "3_getBookById")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "success", content = {@Content(schema = @Schema(implementation = Book.class))}),
+            @ApiResponse(responseCode = "400", description = "bad request")
+    })
+    @Parameter(name = "id", description = "id로 도서를 조회", example = "3")
+    public Book getBookById(@PathVariable Long id) {
         return service.findById(id);
     }
 
     @GetMapping("/isbn/{isbn}")
-    public Book getBook(@PathVariable String isbn) {
+    @Operation(summary = "도서 상세 조회 - isbn", description = "isbn에 해당하는 도서 상세를 조회힙니다.", operationId = "4_getBookByIsbn")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "success", content = {@Content(schema = @Schema(implementation = Book.class))}),
+            @ApiResponse(responseCode = "400", description = "bad request")
+    })
+    @Parameter(name = "isbn", description = "isbn로 도서를 조회", example = "979-116-755-330-0")
+    public Book getBookByIsbn(@PathVariable String isbn) {
         return service.findByIsbn(isbn);
     }
 
     @PatchMapping("/{id}")
+    @Operation(summary = "도서 수정", description = "id에 해당하는 도서를 수정합니다. (제목과 저자를 수정 해보겠습니다.)", operationId = "5_updateBook",
+            parameters = @Parameter(name = "id", description = "수정할 도서 id", required = true, example = "2"),
+            requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
+                    description = "수정할 도서 정보 (제목, 저자만 수정하겠습니다)",
+                    required = true,
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = BookDTO.class),
+                            examples = {
+                                    @ExampleObject(
+                                            name = "도서 수정 예",
+                                            value = """
+                                                    {
+                                                        "title": "수정한 제목",
+                                                        "author": "수정한 저자"
+                                                    }
+                                                    """
+                                    )
+                            }
+                    )
+            ))
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "success", content = {@Content(schema = @Schema(implementation = Book.class))}),
+            @ApiResponse(responseCode = "400", description = "bad request")
+    })
     public Book updateBook(@PathVariable Long id, @RequestBody @Valid BookDTO bookDTO) {
         return service.updateBook(id, bookDTO);
     }
 
     @DeleteMapping("/{id}")
+    @Operation(summary = "도서 삭제", description = "id에 해당하는 도서를 삭제합니다.", operationId = "6_deleteBook")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "success"),
+            @ApiResponse(responseCode = "400", description = "bad request")
+    })
+    @Parameter(name = "id", description = "삭제할 도서의 id", example = "1")
     private ResponseEntity<Map<String, String>> deleteBook(@PathVariable Long id) {
         String deletedBookTitle = service.deleteBook(id);
         return ResponseEntity.ok().body(Map.of(deletedBookTitle, "삭제 되었습니다"));
