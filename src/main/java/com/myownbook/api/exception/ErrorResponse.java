@@ -38,9 +38,8 @@ public class ErrorResponse {
     public static class Builder {
         private String code;
         private String message;
-        private List<ValidationError> errors; // 빌더에도 errors 필드 추가!
+        private List<ValidationError> errors;
 
-        // 빌더 메소드들: 죄다 자기 자신(this) 리턴해서 체이닝 가능하게!
         public Builder code(String code) {
             this.code = code;
             return this;
@@ -51,19 +50,17 @@ public class ErrorResponse {
             return this;
         }
 
-        public Builder errors(List<ValidationError> errors) { // errors 설정하는 빌더 메소드 추가!
+        public Builder errors(List<ValidationError> errors) {
             this.errors = errors;
             return this;
         }
-
-        // 최종적으로 ErrorResponse 객체 반환하는 메소드
         public ErrorResponse build() {
             return new ErrorResponse(this);
         }
     }
 
     public static class ValidationError {
-        //@Valid로 에러가 들어왔을때
+
         private final String field;
         private final String message;
 
