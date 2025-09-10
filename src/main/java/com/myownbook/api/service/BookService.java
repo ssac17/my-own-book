@@ -2,7 +2,7 @@ package com.myownbook.api.service;
 
 import com.myownbook.api.dto.BookSearchCondition;
 import com.myownbook.api.model.Book;
-import com.myownbook.api.model.BookDTO;
+import com.myownbook.api.dto.BookDTO;
 import com.myownbook.api.model.Category;
 import com.myownbook.api.repository.BookRepository;
 import org.apache.logging.log4j.util.Strings;

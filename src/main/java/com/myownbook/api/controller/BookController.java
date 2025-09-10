@@ -3,7 +3,7 @@ package com.myownbook.api.controller;
 import com.myownbook.api.dto.BookSearchCondition;
 import com.myownbook.api.service.BookService;
 import com.myownbook.api.model.Book;
-import com.myownbook.api.model.BookDTO;
+import com.myownbook.api.dto.BookDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
