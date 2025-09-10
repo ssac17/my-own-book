@@ -52,7 +52,7 @@ springdoc:
 app:
   security:
     jwt:
-      keystore-location:  jwt-keystore.jks
-      keystore-password: password
+      keystore-location: jwt-keystore.jks
+      keystore-password: ghkdgksmf2@
       key-alias: jwt-sign-key
-      private-key-passphrase: password
+      private-key-passphrase: ghkdgksmf2@

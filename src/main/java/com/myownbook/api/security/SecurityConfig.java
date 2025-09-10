@@ -1,6 +1,5 @@
 package com.myownbook.api.security;
 
-import org.slf4j.ILoggerFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -8,14 +7,12 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.core.parameters.P;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.security.*;
-import java.security.cert.Certificate;
 import java.security.cert.CertificateException;
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
@@ -46,10 +43,11 @@ public class SecurityConfig {
             InputStream resStream = Thread.currentThread()
                     .getContextClassLoader().getResourceAsStream(keyStorePath);
             keyStore.load(resStream, keyStorePassword.toCharArray());
+            return keyStore;
         }catch (IOException | CertificateException | NoSuchAlgorithmException | KeyStoreException e) {
-            log.error("키저장소를 로드할수 없습니다 : {}", keyStorePath, e);
+            log.error("키 저장소를 로드할수 없습니다 : {}", keyStorePath, e);
         }
-        throw new IllegalArgumentException("키저장소를 로드할수 없습니다");
+        throw new IllegalArgumentException("키 저장소를 로드할수 없습니다");
     }
 
     @Bean
@@ -79,5 +77,5 @@ public class SecurityConfig {
     public JwtDecoder jwtDecoder(RSAPublicKey rsaPublicKey) {
         return NimbusJwtDecoder.withPublicKey(rsaPublicKey).build();
     }
-
 }
+
