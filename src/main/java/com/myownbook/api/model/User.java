@@ -2,12 +2,15 @@ package com.myownbook.api.model;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
-@Table(name = "client")
+@Table(name = "users")
 public class User {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false, length = 20)
@@ -18,6 +21,18 @@ public class User {
 
     @Enumerated(EnumType.STRING)
     private RoleEnum role = RoleEnum.USER;
+
+    @OneToMany(mappedBy = "users", cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<Book> books = new ArrayList<>();
+
+    public List<Book> getBooks() {
+        return books;
+    }
+
+    public User setBooks(List<Book> books) {
+        this.books = books;
+        return this;
+    }
 
     public Long getId() {
         return id;

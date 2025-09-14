@@ -6,7 +6,7 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.Pattern;
 
 @Entity
-@Table(name = "book")
+@Table(name = "books")
 public class Book {
 
     @Id
@@ -32,6 +32,18 @@ public class Book {
     @Min(value = 0, message = "최소 0점부터 입력이 가능합니다.")
     @Max(value = 5, message = "최대 5점까지 입력이 가능합니다.")
     private byte recommend = 0;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "users_id")
+    private User users;
+
+    public User getUser() {
+        return users;
+    }
+
+    public void setUser(User user) {
+        this.users = user;
+    }
 
     public Long getId() {
         return id;

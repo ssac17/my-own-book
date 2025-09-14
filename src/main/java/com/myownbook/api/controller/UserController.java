@@ -2,27 +2,39 @@ package com.myownbook.api.controller;
 
 import com.myownbook.api.dto.UserDTO;
 import com.myownbook.api.dto.UserResponseDTO;
+import com.myownbook.api.model.User;
 import com.myownbook.api.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.authentication.InsufficientAuthenticationException;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/users")
 public class UserController {
 
     private final UserService userService;
+    private final PasswordEncoder passwordEncoder;
 
-    public UserController(UserService userService) {
+    public UserController(UserService userService, PasswordEncoder passwordEncoder) {
         this.userService = userService;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @PostMapping
-    public ResponseEntity<UserResponseDTO> join(@RequestBody @Valid UserDTO userDTO) {
+    public ResponseEntity<UserResponseDTO> signUp(@RequestBody @Valid UserDTO userDTO) {
         UserResponseDTO savedUser = userService.join(userDTO);
         return ResponseEntity.ok(savedUser);
+    }
+
+    @GetMapping
+    public ResponseEntity<UserResponseDTO> login(@Valid UserDTO userDTO) {
+        System.out.println(userDTO.getUsername()+" "+ userDTO.getPassword());
+        User userByUsername = userService.findUserByUsername(userDTO.getUsername());
+        if(passwordEncoder.matches(userDTO.getPassword(), userByUsername.getPassword())) {
+            return ResponseEntity.ok(userService.loginUser(userByUsername));
+        }
+        throw new InsufficientAuthenticationException("이름과 비밀번호를 다시 확인해 주세요");
     }
 }

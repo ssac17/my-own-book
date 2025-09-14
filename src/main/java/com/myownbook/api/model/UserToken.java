@@ -17,7 +17,7 @@ public class UserToken {
     private String refreshToken;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    private User user;
+    private User users;
 
     public Long getId() {
         return id;
@@ -33,11 +33,11 @@ public class UserToken {
     }
 
     public User getUser() {
-        return user;
+        return users;
     }
 
     public UserToken setUser(User user) {
-        this.user = user;
+        this.users = user;
         return this;
     }
 }

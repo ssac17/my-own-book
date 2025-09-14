@@ -2,6 +2,7 @@ package com.myownbook.api.service;
 
 import com.myownbook.api.dto.UserDTO;
 import com.myownbook.api.dto.UserResponseDTO;
+import com.myownbook.api.exception.InvalidRefreshTokenException;
 import com.myownbook.api.model.User;
 import com.myownbook.api.model.UserToken;
 import com.myownbook.api.repository.UserRepository;
@@ -45,7 +46,7 @@ public class UserService {
         joinUser.setPassword(passwordEncoder.encode(userDTO.getPassword()));
         User savedUser = userRepository.save(joinUser);
 
-        return createSignedUserWithRefreshToken(savedUser);
+        return createSignedUserWithRefreshToken(savedUser, "축하합니다! 회원가입 되었습니다.");
     }
 
     public User findUserByUsername(String username) {
@@ -60,17 +61,28 @@ public class UserService {
         return findUser;
     }
 
-    private UserResponseDTO createSignedUserWithRefreshToken(User user) {
-        return createSignedInUser(user).setRefreshToken(createRefreshToken(user));
+    public UserResponseDTO loginUser(User user) {
+        tokenRepository.deleteByUsersId(user.getId());
+        return createSignedUserWithRefreshToken(user, "로그인 성공!");
     }
 
-    private UserResponseDTO createSignedInUser(User user) {
+    private void removeRefreshToken(String refreshToken) {
+        tokenRepository.findByRefreshToken(refreshToken).ifPresentOrElse(tokenRepository::delete, () -> {
+            throw new InvalidRefreshTokenException("잘못된 토큰입니다");
+        });
+    }
+
+    private UserResponseDTO createSignedUserWithRefreshToken(User user, String message) {
+        return createSignedInUser(user, message).setRefreshToken(createRefreshToken(user));
+    }
+
+    private UserResponseDTO createSignedInUser(User user, String message) {
         String token = tokenManager.create(org.springframework.security.core.userdetails.User.builder()
                 .username(user.getUsername())
                 .password(user.getPassword())
                 .authorities(Objects.nonNull(user.getRole()) ? user.getRole().name() : "").build());
         return new UserResponseDTO().setUsername(user.getUsername())
-                .setAccessToken(token).setUserId(user.getId()).setMessage("축하합니다! 회원가입 되었습니다.");
+                .setAccessToken(token).setUserId(user.getId()).setMessage(message);
     }
 
 
