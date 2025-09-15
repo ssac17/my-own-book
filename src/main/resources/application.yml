@@ -56,3 +56,12 @@ app:
       keystore-password: ghkdgksmf2@
       key-alias: jwt-sign-key
       private-key-passphrase: ghkdgksmf2@
+
+#logging:
+#  level:
+#    org:
+#      springframework:
+#        security:
+#          web.access: DEBUG
+
+

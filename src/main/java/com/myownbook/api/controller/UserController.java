@@ -30,7 +30,6 @@ public class UserController {
 
     @GetMapping
     public ResponseEntity<UserResponseDTO> login(@Valid UserDTO userDTO) {
-        System.out.println(userDTO.getUsername()+" "+ userDTO.getPassword());
         User userByUsername = userService.findUserByUsername(userDTO.getUsername());
         if(passwordEncoder.matches(userDTO.getPassword(), userByUsername.getPassword())) {
             return ResponseEntity.ok(userService.loginUser(userByUsername));
