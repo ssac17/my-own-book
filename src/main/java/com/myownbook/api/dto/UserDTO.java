@@ -1,14 +1,25 @@
 package com.myownbook.api.dto;
 
-import jakarta.validation.constraints.NotBlank;
+import com.myownbook.api.model.RoleEnum;
 
 public class UserDTO {
-
-    @NotBlank(message = "이름은 필수 입니다.")
+    private Long id;
     private String username;
+    private RoleEnum role;
 
-    @NotBlank(message = "비밀번호는 필수 입니다.")
-    private String password;
+    public UserDTO(Long id, String username, RoleEnum role) {
+        this.id = id;
+        this.username = username;
+        this.role = role;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getUsername() {
         return username;
@@ -18,11 +29,11 @@ public class UserDTO {
         this.username = username;
     }
 
-    public String getPassword() {
-        return password;
+    public RoleEnum getRole() {
+        return role;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setRole(RoleEnum role) {
+        this.role = role;
     }
 }

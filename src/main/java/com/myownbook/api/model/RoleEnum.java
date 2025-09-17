@@ -28,7 +28,7 @@ public enum RoleEnum implements GrantedAuthority {
     @Override
     @JsonValue
     public String getAuthority() {
-        return "";
+        return authority;
     }
     public class Const {
         public static final String ADMIN = "ROLE_ADMIN";

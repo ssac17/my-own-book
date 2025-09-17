@@ -1,5 +1,6 @@
 package com.myownbook.api.controller;
 
+import com.myownbook.api.dto.BookResponseDTO;
 import com.myownbook.api.dto.BookSearchCondition;
 import com.myownbook.api.service.BookService;
 import com.myownbook.api.model.Book;
@@ -41,9 +42,8 @@ public class BookController {
             @ApiResponse(responseCode = "201", description = "success", content = {@Content(schema = @Schema(implementation = Book.class))}),
             @ApiResponse(responseCode = "400", description = "bad request")
     })
-    public ResponseEntity<Book> add(@RequestBody @Valid BookDTO bookDTO) {
-        Book addBook = service.insert(bookDTO);
-        return ResponseEntity.status(HttpStatus.CREATED).body(addBook);
+    public ResponseEntity<BookResponseDTO> add(@RequestBody @Valid BookDTO bookDTO) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(service.insert(bookDTO));
     }
 
     @GetMapping()
@@ -52,8 +52,8 @@ public class BookController {
             @ApiResponse(responseCode = "200", description = "success"),
             @ApiResponse(responseCode = "400", description = "bad request")
     })
-    public ResponseEntity<Page<Book>> findAll(@Valid BookSearchCondition condition) {
-        Page<Book> books = service.all(condition);
+    public ResponseEntity<Page<BookResponseDTO>> findAll(@Valid BookSearchCondition condition) {
+        Page<BookResponseDTO> books = service.searchAll(condition);
         return ResponseEntity.status(HttpStatus.OK).body(books);
     }
 

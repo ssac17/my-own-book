@@ -1,53 +1,37 @@
-package com.myownbook.api.model;
+package com.myownbook.api.dto;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import jakarta.persistence.*;
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.Pattern;
+import com.myownbook.api.model.Category;
+import com.myownbook.api.model.RoleEnum;
 
-@Entity
-@Table(name = "books")
-public class Book {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class BookResponseDTO {
     private Long id;
-
-    @Column(nullable = false, length = 50)
     private String title;
-
-    @Column(nullable = false, length = 20)
     private String author;
-
-    @Column(length = 20)
     private String isbn;
-
-    @Pattern(regexp = "^\\d{4}$", message = "'yyyy' 형식으로 년도만 입력해 주세요.")
     private String publicationDate;
-
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
     private Category category;
+    private byte recommend;
+    private UserDTO user;
 
-    @Min(value = 0, message = "최소 0점부터 입력이 가능합니다.")
-    @Max(value = 5, message = "최대 5점까지 입력이 가능합니다.")
-    private byte recommend = 0;
+    public BookResponseDTO() {}
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "users_id")
-    private User users;
-
-    public User getUser() {
-        return users;
-    }
-
-    public void setUser(User user) {
-        this.users = user;
+    public BookResponseDTO(Long id, String title, String author, String isbn, String publicationDate, Category category, byte recommend, Long userId, String username, RoleEnum role) {
+        this.id = id;
+        this.title = title;
+        this.author = author;
+        this.isbn = isbn;
+        this.publicationDate = publicationDate;
+        this.category = category;
+        this.recommend = recommend;
+        this.user = new UserDTO(userId, username, role);
     }
 
     public Long getId() {
         return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getTitle() {
@@ -98,16 +82,25 @@ public class Book {
         this.recommend = recommend;
     }
 
+    public UserDTO getUser() {
+        return user;
+    }
+
+    public void setUser(UserDTO user) {
+        this.user = user;
+    }
+
     @Override
     public String toString() {
-        return "Book{" +
+        return "BookResponseDTO{" +
                 "id=" + id +
                 ", title='" + title + '\'' +
                 ", author='" + author + '\'' +
                 ", isbn='" + isbn + '\'' +
-                ", publicationDate=" + publicationDate +
+                ", publicationDate='" + publicationDate + '\'' +
                 ", category=" + category +
                 ", recommend=" + recommend +
+                ", user=" + user +
                 '}';
     }
 }

@@ -17,7 +17,7 @@ public class BookSearchCondition {
     @Min(value = 0, message = "최소 0점부터 입력이 가능합니다.")
     @Max(value = 5, message = "최대 5점까지 입력이 가능합니다.")
     @Schema(description = "별점으로 조회", example = "5", required = false)
-    private byte recommend;
+    private Byte recommend;
 
     public BookSearchCondition() {
     }
@@ -46,11 +46,11 @@ public class BookSearchCondition {
         this.category = category;
     }
 
-    public byte getRecommend() {
+    public Byte getRecommend() {
         return recommend;
     }
 
-    public void setRecommend(byte recommend) {
+    public void setRecommend(Byte recommend) {
         this.recommend = recommend;
     }
 

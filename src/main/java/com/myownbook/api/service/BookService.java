@@ -1,18 +1,24 @@
 package com.myownbook.api.service;
 
+import com.myownbook.api.dto.BookResponseDTO;
 import com.myownbook.api.dto.BookSearchCondition;
+import com.myownbook.api.dto.UserDTO;
 import com.myownbook.api.model.Book;
 import com.myownbook.api.dto.BookDTO;
 import com.myownbook.api.model.Category;
+import com.myownbook.api.model.User;
 import com.myownbook.api.repository.BookRepository;
-import org.apache.logging.log4j.util.Strings;
+import com.myownbook.api.repository.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.util.Objects;
 
@@ -20,22 +26,47 @@ import java.util.Objects;
 public class BookService {
 
     private BookRepository repository;
+    private UserRepository userRepository;
     private Logger log = LoggerFactory.getLogger(getClass());
 
-    public BookService(BookRepository repository) {
+    public BookService(BookRepository repository, UserRepository userRepository) {
         this.repository = repository;
+        this.userRepository = userRepository;
     }
 
-    public Book insert(BookDTO bookDTO) {
+    public BookResponseDTO insert(BookDTO bookDTO) {
         Book newBook = new Book();
         BeanUtils.copyProperties(bookDTO, newBook);
         newBook.setCategory(setCategory(bookDTO));
 
-        return repository.save(newBook);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if(authentication == null || !authentication.isAuthenticated()) {
+            throw new IllegalStateException("책 등록은 로그인 후 이용해주세요");
+        }
+        String username = authentication.getName();
+        User findUser = userRepository.findByUsername(username);
+        if(Objects.isNull(findUser)) {
+            throw new IllegalArgumentException("인증된 사용자 정보를 찾을 수 없습니다: " + username);
+        }
+        newBook.setUser(findUser);
+        repository.save(newBook);
+        BookResponseDTO bookResponseDTO = new BookResponseDTO();
+        bookResponseDTO.setUser(new UserDTO(findUser.getId(), findUser.getUsername(), findUser.getRole()));
+        BeanUtils.copyProperties(newBook, bookResponseDTO);
+        return bookResponseDTO;
     }
 
-    public Page<Book> all(BookSearchCondition condition) {
-        return searchBook(condition);
+    public Page<BookResponseDTO> searchAll(BookSearchCondition condition) {
+        log.info("condition = {}", condition);
+        String titleParam = StringUtils.hasText(condition.getTitle()) ? condition.getTitle() : null;
+        String authorParam = StringUtils.hasText(condition.getAuthor()) ? condition.getAuthor() : null;
+        Category categoryParam = null;
+        if(StringUtils.hasText(condition.getCategory())) {
+            categoryParam = Category.valueOf(condition.getCategory().toUpperCase());
+        }
+        Byte recommendParam = condition.getRecommend();
+        PageRequest pageRequest = PageRequest.of(0, 5, Sort.by(Sort.Direction.DESC, "id"));
+        return repository.searchAllBooksAsDto(titleParam, authorParam, categoryParam, recommendParam, pageRequest);
     }
 
     public Book findById(Long id) {
@@ -81,8 +112,8 @@ public class BookService {
 
     private Category setCategory(BookDTO bookDTO) {
         //중목 제목 확인
-        Book findTitle = repository.findByTitle(bookDTO.getTitle());
-        if(!Objects.isNull(findTitle)) {
+        Integer duplicationChecked = repository.checkTitleDuplication(bookDTO.getTitle());
+        if(duplicationChecked > 0) {
            throw new IllegalArgumentException("이미 등록된 제목입니다.");
         }
         Book findIsbn = repository.findByIsbn(bookDTO.getIsbn());
@@ -103,25 +134,5 @@ public class BookService {
 
     private Book findBook(Long id) {
         return repository.findById(id).orElseThrow(() -> new IllegalArgumentException("해당 id의 도서가 존재하지 않습니다."));
-    }
-
-    private Page<Book> searchBook(BookSearchCondition condition) {
-        log.info("condition = {}", condition);
-        PageRequest pageRequest = PageRequest.of(0, 5, Sort.by(Sort.Direction.DESC, "id"));
-        if(Strings.isNotEmpty(condition.getTitle())) {
-            return repository.findByTitleContaining(condition.getTitle(), pageRequest);
-        }
-        if(Strings.isNotEmpty(condition.getAuthor())) {
-            return repository.findByAuthorContaining(condition.getAuthor(), pageRequest);
-        }
-        if(Strings.isNotEmpty(condition.getCategory())) {
-            Category categoryValue = Category.valueOf(condition.getCategory().toUpperCase());
-            return repository.findByCategoryLike(categoryValue, pageRequest);
-        }
-        byte recommend = condition.getRecommend();
-        if(recommend >= 0 && recommend <= 5) {
-            return repository.findByRecommendGreaterThanEqual(recommend, pageRequest);
-        }
-        return repository.findAll(pageRequest);
     }
 }

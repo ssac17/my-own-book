@@ -4,7 +4,7 @@ insert into books(title, author, category, isbn, publication_date, recommend, us
 insert into books(title, author, category, isbn, publication_date, recommend, users_id) values ('가면산장 살인사건', '히가시노 게이고', 'MYSTERY', '978-899-098-257-5', '2014', 4, 1);
 insert into books(title, author, category, isbn, publication_date, recommend, users_id) values ('호의에 대하여', '문형배', 'ESSAY', '979-117-332-302-7', '2025', 4, 1);
 insert into books(title, author, category, isbn, publication_date, recommend, users_id) values ('가공범', '히가시노 게이고', 'MYSTERY', '979-117-061-275-9', '2025', 4, 1);
-insert into books(title, author, category, isbn, publication_date, recommend, users_id) values ('내가 없던 어느 밤에', '이꽃잎', 'HUMANITIES', '979-116-755-330-0', '2025', 4, 1);
+insert into books(title, author, category, isbn, publication_date, recommend, users_id) values ('내가 없던 어느 밤에', '이꽃잎', 'HUMANITIES', '979-116-755-330-0', '2025', 1, 1);
 insert into books(title, author, category, isbn, publication_date, recommend, users_id) values ('첫 여름, 완주', '김금희', 'NOVEL', '979-119-722-198-9', '2025', 4, 1);
 insert into books(title, author, category, isbn, publication_date, recommend, users_id) values ('혼자 공부하는 파이썬', '윤인성', 'IT', '979-116-224-565-1', '2022', 3, 1);
 insert into books(title, author, category, isbn, publication_date, recommend, users_id) values ('치즈 이야기', '조예은', 'NOVEL', '979-114-160-256-7', '2025', 4, 1);

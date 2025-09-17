@@ -1,6 +1,6 @@
 package com.myownbook.api.service;
 
-import com.myownbook.api.dto.UserDTO;
+import com.myownbook.api.dto.LoginDTO;
 import com.myownbook.api.dto.UserResponseDTO;
 import com.myownbook.api.exception.InvalidRefreshTokenException;
 import com.myownbook.api.model.User;
@@ -36,7 +36,7 @@ public class UserService {
     }
 
     @Transactional
-    public UserResponseDTO join(@Valid UserDTO userDTO) {
+    public UserResponseDTO join(@Valid LoginDTO userDTO) {
         User findUser = userRepository.findByUsername(userDTO.getUsername());
         if(!Objects.isNull(findUser)) {
             throw new IllegalArgumentException("이미 등록된 유저입니다.");

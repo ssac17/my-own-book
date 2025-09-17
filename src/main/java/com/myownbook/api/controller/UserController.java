@@ -1,6 +1,6 @@
 package com.myownbook.api.controller;
 
-import com.myownbook.api.dto.UserDTO;
+import com.myownbook.api.dto.LoginDTO;
 import com.myownbook.api.dto.UserResponseDTO;
 import com.myownbook.api.model.User;
 import com.myownbook.api.service.UserService;
@@ -23,13 +23,13 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<UserResponseDTO> signUp(@RequestBody @Valid UserDTO userDTO) {
+    public ResponseEntity<UserResponseDTO> signUp(@RequestBody @Valid LoginDTO userDTO) {
         UserResponseDTO savedUser = userService.join(userDTO);
         return ResponseEntity.ok(savedUser);
     }
 
     @GetMapping
-    public ResponseEntity<UserResponseDTO> login(@Valid UserDTO userDTO) {
+    public ResponseEntity<UserResponseDTO> login(@Valid LoginDTO userDTO) {
         User userByUsername = userService.findUserByUsername(userDTO.getUsername());
         if(passwordEncoder.matches(userDTO.getPassword(), userByUsername.getPassword())) {
             return ResponseEntity.ok(userService.loginUser(userByUsername));

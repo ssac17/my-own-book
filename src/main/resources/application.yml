@@ -21,7 +21,7 @@ spring:
       ddl-auto: create-drop
     properties:
       hibernate:
-        show_sql: true
+#        show_sql: true
         format_sql: true
     defer-datasource-initialization: true
 
@@ -57,11 +57,19 @@ app:
       key-alias: jwt-sign-key
       private-key-passphrase: ghkdgksmf2@
 
-#logging:
-#  level:
-#    org:
-#      springframework:
-#        security:
-#          web.access: DEBUG
+logging:
+  level:
+    org:
+      hibernate:
+        SQL: debug
+        orm:
+          jdbc:
+            bind: trace
+#        type: trace
+        query:
+          hql: debug
+          sqm: debug
+
+
 
 
