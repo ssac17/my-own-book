@@ -22,14 +22,14 @@ public class UserController {
         this.passwordEncoder = passwordEncoder;
     }
 
-    @PostMapping
+    @PostMapping("/signup")
     public ResponseEntity<UserResponseDTO> signUp(@RequestBody @Valid LoginDTO userDTO) {
         UserResponseDTO savedUser = userService.join(userDTO);
         return ResponseEntity.ok(savedUser);
     }
 
-    @GetMapping
-    public ResponseEntity<UserResponseDTO> login(@Valid LoginDTO userDTO) {
+    @PostMapping("/login")
+    public ResponseEntity<UserResponseDTO> login(@RequestBody @Valid LoginDTO userDTO) {
         User userByUsername = userService.findUserByUsername(userDTO.getUsername());
         if(passwordEncoder.matches(userDTO.getPassword(), userByUsername.getPassword())) {
             return ResponseEntity.ok(userService.loginUser(userByUsername));

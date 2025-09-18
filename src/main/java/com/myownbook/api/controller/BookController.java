@@ -118,6 +118,6 @@ public class BookController {
     @Parameter(name = "id", description = "삭제할 도서의 id", example = "1")
     private ResponseEntity<Map<String, String>> deleteBook(@PathVariable Long id) {
         String deletedBookTitle = service.deleteBook(id);
-        return ResponseEntity.ok().body(Map.of(deletedBookTitle, "삭제 되었습니다"));
+        return ResponseEntity.ok().body(Map.of("status", "삭제 되었습니다"));
     }
 }

@@ -50,9 +50,6 @@ public class BookService {
         }
         newBook.setUser(findUser);
         repository.save(newBook);
-        //BookResponseDTO bookResponseDTO = new BookResponseDTO();
-        //bookResponseDTO.setUser(new UserDTO(newBook));
-        //BeanUtils.copyProperties(newBook, bookResponseDTO);
         return makeResponseBook(newBook);
     }
 
@@ -104,6 +101,17 @@ public class BookService {
 
     public String deleteBook(Long id) {
         Book findBook = findBook(id);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if(authentication == null || !authentication.isAuthenticated()) {
+            throw new IllegalStateException("책 삭제는 로그인 후 이용해주세요");
+        }
+        String username = authentication.getName();
+        User findUser = userRepository.findByUsername(findBook.getUser().getUsername());
+        log.info("findUser.username = {}", findUser.getUsername());
+        log.info("username = {}", username);
+        if(!findUser.getUsername().equals(username)) {
+            throw new IllegalStateException("등록한 사용자와 일치하지 않습니다.");
+        }
         repository.deleteById(id);
         return findBook.getTitle();
     }
