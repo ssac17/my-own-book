@@ -10,13 +10,15 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 public interface BookRepository extends JpaRepository<Book, Long>{
 
     @Query("select count(b) from Book b where b.title = :title")
     Integer checkTitleDuplication(@Param("title") String title);
 
-    Book findByIsbn(String isbn);
+    Optional<Book> findByIsbn(String isbn);
 
     @Query("select new com.myownbook.api.dto.BookResponseDTO(" +
             "b.id, b.title, b.author, b.isbn, b.publicationDate, b.category, b.recommend," +

@@ -64,8 +64,8 @@ public class BookController {
             @ApiResponse(responseCode = "400", description = "bad request")
     })
     @Parameter(name = "id", description = "id로 도서를 조회", example = "3")
-    public Book getBookById(@PathVariable Long id) {
-        return service.findById(id);
+    public ResponseEntity<BookResponseDTO> getBookById(@PathVariable Long id) {
+        return ResponseEntity.ok(service.findById(id));
     }
 
     @GetMapping("/isbn/{isbn}")
@@ -75,8 +75,8 @@ public class BookController {
             @ApiResponse(responseCode = "400", description = "bad request")
     })
     @Parameter(name = "isbn", description = "isbn로 도서를 조회", example = "979-116-755-330-0")
-    public Book getBookByIsbn(@PathVariable String isbn) {
-        return service.findByIsbn(isbn);
+    public ResponseEntity<BookResponseDTO> getBookByIsbn(@PathVariable String isbn) {
+        return ResponseEntity.ok(service.findByIsbn(isbn));
     }
 
     @PatchMapping("/{id}")

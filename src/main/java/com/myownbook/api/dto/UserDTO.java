@@ -1,5 +1,6 @@
 package com.myownbook.api.dto;
 
+import com.myownbook.api.model.Book;
 import com.myownbook.api.model.RoleEnum;
 
 public class UserDTO {
@@ -11,6 +12,12 @@ public class UserDTO {
         this.id = id;
         this.username = username;
         this.role = role;
+    }
+
+    public UserDTO(Book book) {
+        this.id = book.getUser().getId();
+        this.username = book.getUser().getUsername();
+        this.role = book.getUser().getRole();
     }
 
     public Long getId() {

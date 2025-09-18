@@ -50,10 +50,10 @@ public class BookService {
         }
         newBook.setUser(findUser);
         repository.save(newBook);
-        BookResponseDTO bookResponseDTO = new BookResponseDTO();
-        bookResponseDTO.setUser(new UserDTO(findUser.getId(), findUser.getUsername(), findUser.getRole()));
-        BeanUtils.copyProperties(newBook, bookResponseDTO);
-        return bookResponseDTO;
+        //BookResponseDTO bookResponseDTO = new BookResponseDTO();
+        //bookResponseDTO.setUser(new UserDTO(newBook));
+        //BeanUtils.copyProperties(newBook, bookResponseDTO);
+        return makeResponseBook(newBook);
     }
 
     public Page<BookResponseDTO> searchAll(BookSearchCondition condition) {
@@ -69,16 +69,14 @@ public class BookService {
         return repository.searchAllBooksAsDto(titleParam, authorParam, categoryParam, recommendParam, pageRequest);
     }
 
-    public Book findById(Long id) {
-        return findBook(id);
+    public BookResponseDTO findById(Long id) {
+        Book findBook = repository.findById(id).orElseThrow(() -> new IllegalArgumentException("해당 id의 도서가 존재하지 않습니다."));
+        return makeResponseBook(findBook);
     }
 
-    public Book findByIsbn(String isbn) {
-        Book findBook = repository.findByIsbn(isbn);
-        if(Objects.isNull(findBook)) {
-            throw new IllegalArgumentException("해당 isbn의 도서가 존재하지 않습니다.");
-        }
-        return findBook;
+    public BookResponseDTO findByIsbn(String isbn) {
+        Book findBook = repository.findByIsbn(isbn).orElseThrow(() -> new IllegalArgumentException("해당 isbn의 도서가 존재하지 않습니다."));
+        return makeResponseBook(findBook);
     }
 
     public Book updateBook(Long id, BookDTO bookDTO) {
@@ -89,7 +87,7 @@ public class BookService {
         if (bookDTO.getAuthor() != null) {
             findBook.setAuthor(bookDTO.getAuthor());
         }
-        if (bookDTO.getIsbn() != null) { // ISBN 같은 필드들도 null 체크
+        if (bookDTO.getIsbn() != null) {
             findBook.setIsbn(bookDTO.getIsbn());
         }
         if (bookDTO.getPublicationDate() != null) {
@@ -98,7 +96,7 @@ public class BookService {
         if (bookDTO.getCategory() != null) {
             findBook.setCategory(Category.valueOf(bookDTO.getCategory()));
         }
-        if (bookDTO.getRecommend() != null) { // Byte로 바꿨으니 null 체크 가능
+        if (bookDTO.getRecommend() != null) {
             findBook.setRecommend(bookDTO.getRecommend());
         }
         return repository.save(findBook);
@@ -116,10 +114,7 @@ public class BookService {
         if(duplicationChecked > 0) {
            throw new IllegalArgumentException("이미 등록된 제목입니다.");
         }
-        Book findIsbn = repository.findByIsbn(bookDTO.getIsbn());
-        if(!Objects.isNull(findIsbn)) {
-            throw new IllegalArgumentException("이미 등록된 isbn입니다.");
-        }
+        repository.findByIsbn(bookDTO.getIsbn()).ifPresent(book -> { throw new IllegalArgumentException("이미 등록된 isbn입니다."); });
         String category = bookDTO.getCategory();
         StringBuilder categoryTypes = new StringBuilder();
         for (Category value : Category.values()) {
@@ -134,5 +129,12 @@ public class BookService {
 
     private Book findBook(Long id) {
         return repository.findById(id).orElseThrow(() -> new IllegalArgumentException("해당 id의 도서가 존재하지 않습니다."));
+    }
+
+    private BookResponseDTO makeResponseBook(Book findBook) {
+        BookResponseDTO bookResponseDTO = new BookResponseDTO();
+        BeanUtils.copyProperties(findBook, bookResponseDTO);
+        bookResponseDTO.setUser(new UserDTO(findBook));
+        return bookResponseDTO;
     }
 }
