@@ -105,8 +105,8 @@ public class BookController {
             @ApiResponse(responseCode = "200", description = "success", content = {@Content(schema = @Schema(implementation = Book.class))}),
             @ApiResponse(responseCode = "400", description = "bad request")
     })
-    public Book updateBook(@PathVariable Long id, @RequestBody @Valid BookDTO bookDTO) {
-        return service.updateBook(id, bookDTO);
+    public ResponseEntity<BookResponseDTO> updateBook(@PathVariable Long id, @RequestBody @Valid BookDTO bookDTO) {
+        return ResponseEntity.ok(service.updateBook(id, bookDTO));
     }
 
     @DeleteMapping("/{id}")

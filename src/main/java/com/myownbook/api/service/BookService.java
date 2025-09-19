@@ -38,7 +38,6 @@ public class BookService {
         Book newBook = new Book();
         BeanUtils.copyProperties(bookDTO, newBook);
         newBook.setCategory(setCategory(bookDTO));
-
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if(authentication == null || !authentication.isAuthenticated()) {
             throw new IllegalStateException("책 등록은 로그인 후 이용해주세요");
@@ -76,7 +75,18 @@ public class BookService {
         return makeResponseBook(findBook);
     }
 
-    public Book updateBook(Long id, BookDTO bookDTO) {
+    public BookResponseDTO updateBook(Long id, BookDTO bookDTO) {
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if(authentication == null || !authentication.isAuthenticated()) {
+            throw new IllegalStateException("책 등록은 로그인 후 이용해주세요");
+        }
+        String username = authentication.getName();
+        User findUser = userRepository.findByUsername(username);
+        if(Objects.isNull(findUser)) {
+            throw new IllegalArgumentException("인증된 사용자 정보를 찾을 수 없습니다: " + username);
+        }
+
         Book findBook = findBook(id);
         if (bookDTO.getTitle() != null) {
             findBook.setTitle(bookDTO.getTitle());
@@ -96,7 +106,7 @@ public class BookService {
         if (bookDTO.getRecommend() != null) {
             findBook.setRecommend(bookDTO.getRecommend());
         }
-        return repository.save(findBook);
+        return makeResponseBook(repository.save(findBook));
     }
 
     public String deleteBook(Long id) {
@@ -107,8 +117,6 @@ public class BookService {
         }
         String username = authentication.getName();
         User findUser = userRepository.findByUsername(findBook.getUser().getUsername());
-        log.info("findUser.username = {}", findUser.getUsername());
-        log.info("username = {}", username);
         if(!findUser.getUsername().equals(username)) {
             throw new IllegalStateException("등록한 사용자와 일치하지 않습니다.");
         }
