@@ -14,6 +14,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -52,8 +53,7 @@ public class BookService {
         return makeResponseBook(newBook);
     }
 
-    public Page<BookResponseDTO> searchAll(BookSearchCondition condition) {
-        log.info("condition = {}", condition);
+    public Page<BookResponseDTO> searchAll(BookSearchCondition condition, Pageable pageable) {
         String titleParam = StringUtils.hasText(condition.getTitle()) ? condition.getTitle() : null;
         String authorParam = StringUtils.hasText(condition.getAuthor()) ? condition.getAuthor() : null;
         Category categoryParam = null;
@@ -61,8 +61,7 @@ public class BookService {
             categoryParam = Category.valueOf(condition.getCategory().toUpperCase());
         }
         Byte recommendParam = condition.getRecommend();
-        PageRequest pageRequest = PageRequest.of(0, 5, Sort.by(Sort.Direction.DESC, "id"));
-        return repository.searchAllBooksAsDto(titleParam, authorParam, categoryParam, recommendParam, pageRequest);
+        return repository.searchAllBooksAsDto(titleParam, authorParam, categoryParam, recommendParam, pageable);
     }
 
     public BookResponseDTO findById(Long id) {

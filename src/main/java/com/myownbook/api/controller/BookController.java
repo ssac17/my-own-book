@@ -17,23 +17,35 @@ import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.data.web.PagedResourcesAssembler;
+import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.Link;
+import org.springframework.hateoas.PagedModel;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-
-import java.util.Map;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @Tag(name = "Book API", description = "도서 관리 API")
 @RestController
 @RequestMapping("/books")
 public class BookController {
 
-    private BookService service;
     private Logger log = LoggerFactory.getLogger(getClass());
+    private final BookService service;
+    private final BookResponseDTOAssembler assembler;
+    private final PagedResourcesAssembler<BookResponseDTO> pagedResourcesAssembler;
 
-    public BookController(BookService service) {
+    public BookController(BookService service, BookResponseDTOAssembler assembler, PagedResourcesAssembler<BookResponseDTO> pagedResourcesAssembler) {
         this.service = service;
+        this.assembler = assembler;
+        this.pagedResourcesAssembler = pagedResourcesAssembler;
     }
 
     @PostMapping("/add")
@@ -43,7 +55,8 @@ public class BookController {
             @ApiResponse(responseCode = "400", description = "bad request")
     })
     public ResponseEntity<BookResponseDTO> add(@RequestBody @Valid BookDTO bookDTO) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(service.insert(bookDTO));
+        BookResponseDTO responseDTO = service.insert(bookDTO);
+        return ResponseEntity.status(HttpStatus.CREATED).body(assembler.toModel(responseDTO));
     }
 
     @GetMapping()
@@ -52,9 +65,13 @@ public class BookController {
             @ApiResponse(responseCode = "200", description = "success"),
             @ApiResponse(responseCode = "400", description = "bad request")
     })
-    public ResponseEntity<Page<BookResponseDTO>> findAll(@Valid BookSearchCondition condition) {
-        Page<BookResponseDTO> books = service.searchAll(condition);
-        return ResponseEntity.status(HttpStatus.OK).body(books);
+    public ResponseEntity<PagedModel<EntityModel<BookResponseDTO>>> findAll(@Valid BookSearchCondition condition,
+                                                                            @PageableDefault(size = 5, sort = "id", direction = Sort.Direction.DESC)Pageable pageable) {
+        Page<BookResponseDTO> bookPage = service.searchAll(condition, pageable);
+        Page<BookResponseDTO> bookPageWithLinks = bookPage.map(assembler::toModel);
+        Link baseLink = linkTo(methodOn(BookController.class).findAll(condition, Pageable.unpaged())).withSelfRel();
+        PagedModel<EntityModel<BookResponseDTO>> pagedModel = pagedResourcesAssembler.toModel(bookPageWithLinks, baseLink);
+        return ResponseEntity.ok(pagedModel);
     }
 
     @GetMapping("/id/{id}")
@@ -65,7 +82,7 @@ public class BookController {
     })
     @Parameter(name = "id", description = "id로 도서를 조회", example = "3")
     public ResponseEntity<BookResponseDTO> getBookById(@PathVariable Long id) {
-        return ResponseEntity.ok(service.findById(id));
+        return ResponseEntity.ok(assembler.toModel(service.findById(id)));
     }
 
     @GetMapping("/isbn/{isbn}")
@@ -76,7 +93,7 @@ public class BookController {
     })
     @Parameter(name = "isbn", description = "isbn로 도서를 조회", example = "979-116-755-330-0")
     public ResponseEntity<BookResponseDTO> getBookByIsbn(@PathVariable String isbn) {
-        return ResponseEntity.ok(service.findByIsbn(isbn));
+        return ResponseEntity.ok(assembler.toModel(service.findByIsbn(isbn)));
     }
 
     @PatchMapping("/{id}")
@@ -106,7 +123,7 @@ public class BookController {
             @ApiResponse(responseCode = "400", description = "bad request")
     })
     public ResponseEntity<BookResponseDTO> updateBook(@PathVariable Long id, @RequestBody @Valid BookDTO bookDTO) {
-        return ResponseEntity.ok(service.updateBook(id, bookDTO));
+        return ResponseEntity.ok(assembler.toModel(service.updateBook(id, bookDTO)));
     }
 
     @DeleteMapping("/{id}")
@@ -116,8 +133,11 @@ public class BookController {
             @ApiResponse(responseCode = "400", description = "bad request")
     })
     @Parameter(name = "id", description = "삭제할 도서의 id", example = "1")
-    private ResponseEntity<Map<String, String>> deleteBook(@PathVariable Long id) {
-        String deletedBookTitle = service.deleteBook(id);
-        return ResponseEntity.ok().body(Map.of("status", "삭제 되었습니다"));
+    private ResponseEntity<Void> deleteBook(@PathVariable Long id) {
+        service.deleteBook(id);
+        Link allBooksLinks = linkTo(methodOn(BookController.class).findAll(new BookSearchCondition(), Pageable.unpaged())).withRel("all-book");
+        HttpHeaders headers = new HttpHeaders();
+        headers.add(HttpHeaders.LOCATION, allBooksLinks.getHref());
+        return new ResponseEntity<>(headers, HttpStatus.NO_CONTENT);
     }
 }

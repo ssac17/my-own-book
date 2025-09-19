@@ -2,8 +2,9 @@ package com.myownbook.api.dto;
 
 import com.myownbook.api.model.Category;
 import com.myownbook.api.model.RoleEnum;
+import org.springframework.hateoas.RepresentationModel;
 
-public class BookResponseDTO {
+public class BookResponseDTO extends RepresentationModel<BookResponseDTO> {
     private Long id;
     private String title;
     private String author;
