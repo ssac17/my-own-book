@@ -66,13 +66,13 @@ public class SecurityConfig {
                 .requestMatchers("/swagger-ui/**", "/swagger-resources/**","/v3/api-docs/**", HttpMethod.GET.name()).permitAll()
                 .requestMatchers(HttpMethod.POST, "/users/signup").permitAll()
                 .requestMatchers(HttpMethod.POST,"/users/login").permitAll()
+                //.requestMatchers(HttpMethod.POST, "/books/add").hasAnyRole("USER", "ADMIN")
                 .requestMatchers(HttpMethod.GET, "/books").permitAll()
                 .requestMatchers(HttpMethod.GET, "/books/isbn/**").permitAll()
                 .requestMatchers(HttpMethod.GET, "/books/id/**").permitAll()
                         .anyRequest().authenticated())
                 .oauth2ResourceServer(oauth2 -> oauth2.jwt(Customizer.withDefaults()))
                 .build();
-
     }
 
     @Bean

@@ -15,6 +15,6 @@ public enum Category {
     CHILDREN,
     CARTOON,
     UNDETERMINED,
-
+    FICTION
 }
 

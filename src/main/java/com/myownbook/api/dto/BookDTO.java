@@ -16,7 +16,7 @@ public class BookDTO {
     @Schema(description = "저자", example = "이해인")
     private String author;
 
-    @ISBN(message = "13자리의 isbn형식을 입력해 주세드.")
+    @ISBN(message = "13자리의 isbn형식을 입력해 주세요.")
     @Schema(description = "isbn 코드", example = "979-119-326-265-8")
     private String isbn;
 
@@ -36,48 +36,54 @@ public class BookDTO {
         return title;
     }
 
-    public void setTitle(String title) {
+    public BookDTO setTitle(String title) {
         this.title = title;
+        return this;
     }
 
     public String getAuthor() {
         return author;
     }
 
-    public void setAuthor(String author) {
+    public BookDTO setAuthor(String author) {
         this.author = author;
+        return this;
     }
 
     public String getIsbn() {
         return isbn;
     }
 
-    public void setIsbn(String isbn) {
+    public BookDTO setIsbn(String isbn) {
         this.isbn = isbn;
+        return this;
     }
 
     public String getPublicationDate() {
         return publicationDate;
     }
 
-    public void setPublicationDate(String publicationDate) {
+    public BookDTO setPublicationDate(String publicationDate) {
         this.publicationDate = publicationDate;
+        return this;
     }
 
     public String getCategory() {
         return category;
     }
 
-    public void setCategory(String category) {
+    public BookDTO setCategory(String category) {
         this.category = category;
+        return this;
     }
 
     public Byte getRecommend() {
         return recommend;
     }
 
-    public void setRecommend(byte recommend) {
+    public BookDTO setRecommend(byte recommend) {
         this.recommend = recommend;
+        return this;
     }
 
     @Override

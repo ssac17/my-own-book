@@ -133,7 +133,7 @@ public class BookController {
             @ApiResponse(responseCode = "400", description = "bad request")
     })
     @Parameter(name = "id", description = "삭제할 도서의 id", example = "1")
-    private ResponseEntity<Void> deleteBook(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteBook(@PathVariable Long id) {
         service.deleteBook(id);
         Link allBooksLinks = linkTo(methodOn(BookController.class).findAll(new BookSearchCondition(), Pageable.unpaged())).withRel("all-book");
         HttpHeaders headers = new HttpHeaders();

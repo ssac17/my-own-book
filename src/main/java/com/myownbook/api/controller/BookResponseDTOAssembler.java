@@ -20,6 +20,8 @@ public class BookResponseDTOAssembler extends RepresentationModelAssemblerSuppor
     public BookResponseDTO toModel(BookResponseDTO entity) {
         entity.add(linkTo(methodOn(BookController.class).getBookById(entity.getId())).withSelfRel());
         entity.add(linkTo(methodOn(BookController.class).findAll(new BookSearchCondition(), Pageable.unpaged())).withRel("all-books"));
+        entity.add(linkTo(methodOn(BookController.class).updateBook(entity.getId(), null)).withRel("update-book"));
+        entity.add(linkTo(methodOn(BookController.class).deleteBook(entity.getId())).withRel("delete-book"));
         return entity;
     }
 }
