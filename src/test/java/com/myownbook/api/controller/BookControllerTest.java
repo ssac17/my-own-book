@@ -1,6 +1,5 @@
 package com.myownbook.api.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.myownbook.api.dto.BookDTO;
 import com.myownbook.api.dto.BookResponseDTO;
