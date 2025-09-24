@@ -26,32 +26,36 @@ public class BookSearchCondition {
         return title;
     }
 
-    public void setTitle(String title) {
+    public BookSearchCondition setTitle(String title) {
         this.title = title;
+        return this;
     }
 
     public String getAuthor() {
         return author;
     }
 
-    public void setAuthor(String author) {
+    public BookSearchCondition setAuthor(String author) {
         this.author = author;
+        return this;
     }
 
     public String getCategory() {
         return category;
     }
 
-    public void setCategory(String category) {
+    public BookSearchCondition setCategory(String category) {
         this.category = category;
+        return this;
     }
 
     public Byte getRecommend() {
         return recommend;
     }
 
-    public void setRecommend(Byte recommend) {
+    public BookSearchCondition setRecommend(Byte recommend) {
         this.recommend = recommend;
+        return this;
     }
 
     @Override

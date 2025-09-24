@@ -36,6 +36,7 @@ dependencies {
 
 tasks.named('test') {
     jvmArgs = [
+            //테스트시 mockito 관련 경고 없애기
             "-javaagent:${configurations.testRuntimeClasspath.find { it.name.contains('mockito-core') }.absolutePath}",
             "-Xshare:off"
     ]
