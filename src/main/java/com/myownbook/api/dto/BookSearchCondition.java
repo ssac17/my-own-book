@@ -4,6 +4,8 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 
+import java.util.Objects;
+
 public class BookSearchCondition {
     @Schema(description = "제목으로 조회", example = "채식", required = false)
     private String title;
@@ -59,12 +61,14 @@ public class BookSearchCondition {
     }
 
     @Override
-    public String toString() {
-        return "BookSearchCondition{" +
-                "title='" + title + '\'' +
-                ", author='" + author + '\'' +
-                ", category='" + category + '\'' +
-                ", recommend=" + recommend +
-                '}';
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        BookSearchCondition that = (BookSearchCondition) o;
+        return Objects.equals(getTitle(), that.getTitle()) && Objects.equals(getAuthor(), that.getAuthor()) && Objects.equals(getCategory(), that.getCategory()) && Objects.equals(getRecommend(), that.getRecommend());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getTitle(), getAuthor(), getCategory(), getRecommend());
     }
 }

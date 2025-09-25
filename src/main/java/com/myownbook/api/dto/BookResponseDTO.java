@@ -31,64 +31,72 @@ public class BookResponseDTO extends RepresentationModel<BookResponseDTO> {
         return id;
     }
 
-    public void setId(Long id) {
+    public BookResponseDTO setId(Long id) {
         this.id = id;
+        return this;
     }
 
     public String getTitle() {
         return title;
     }
 
-    public void setTitle(String title) {
+    public BookResponseDTO setTitle(String title) {
         this.title = title;
+        return this;
     }
 
     public String getAuthor() {
         return author;
     }
 
-    public void setAuthor(String author) {
+    public BookResponseDTO setAuthor(String author) {
         this.author = author;
+        return this;
     }
 
     public String getIsbn() {
         return isbn;
     }
 
-    public void setIsbn(String isbn) {
+    public BookResponseDTO setIsbn(String isbn) {
         this.isbn = isbn;
+        return this;
     }
 
     public String getPublicationDate() {
         return publicationDate;
     }
 
-    public void setPublicationDate(String publicationDate) {
+    public BookResponseDTO setPublicationDate(String publicationDate) {
         this.publicationDate = publicationDate;
+        return this;
     }
 
     public Category getCategory() {
         return category;
     }
 
-    public void setCategory(Category category) {
+    public BookResponseDTO setCategory(Category category) {
         this.category = category;
+        return this;
     }
 
     public byte getRecommend() {
         return recommend;
     }
 
-    public void setRecommend(byte recommend) {
+    public BookResponseDTO setRecommend(byte recommend) {
         this.recommend = recommend;
+        return this;
     }
 
     public UserDTO getUser() {
         return user;
     }
 
-    public void setUser(UserDTO user) {
+    public BookResponseDTO setUser(UserDTO user) {
         this.user = user;
+        return this;
     }
 
     @Override

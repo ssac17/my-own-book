@@ -24,6 +24,7 @@ import org.springframework.data.web.PagedResourcesAssembler;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.PagedModel;
+import org.springframework.hateoas.RepresentationModel;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -122,7 +123,7 @@ public class BookController {
             @ApiResponse(responseCode = "200", description = "success", content = {@Content(schema = @Schema(implementation = Book.class))}),
             @ApiResponse(responseCode = "400", description = "bad request")
     })
-    public ResponseEntity<BookResponseDTO> updateBook(@PathVariable Long id, @RequestBody @Valid BookDTO bookDTO) {
+    public ResponseEntity<? extends RepresentationModel<BookResponseDTO>> updateBook(@PathVariable Long id, @RequestBody @Valid BookDTO bookDTO) {
         return ResponseEntity.ok(assembler.toModel(service.updateBook(id, bookDTO)));
     }
 
