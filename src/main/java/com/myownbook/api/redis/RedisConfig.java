@@ -1,5 +1,7 @@
 package com.myownbook.api.redis;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.myownbook.api.dto.BookResponseDTO;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
@@ -7,25 +9,40 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.cache.RedisCacheConfiguration;
 import org.springframework.data.redis.cache.RedisCacheManager;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
-import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
+import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.RedisSerializationContext;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 import java.time.Duration;
+import java.util.HashMap;
+import java.util.Map;
 
 @Configuration
 @EnableCaching //스프링부트 애플리케이션 캐싱을 활성화
 public class RedisConfig {
 
     @Bean
-    public CacheManager cacheManager(RedisConnectionFactory connectionFactory) {
-        //캐시의 만료시간이나 key, value를 만들어 어떻게 저장할지 설정
-        RedisCacheConfiguration redisCacheConfiguration = RedisCacheConfiguration.defaultCacheConfig()
-                .serializeKeysWith(RedisSerializationContext.SerializationPair.fromSerializer(new StringRedisSerializer())) //key 직렬화
-                .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(new GenericJackson2JsonRedisSerializer())) //Value 직렬화 (JSON 형태로 저장)
-                .entryTtl(Duration.ofMinutes(10)); //캐시 데이터 10분 유지
-        return RedisCacheManager.RedisCacheManagerBuilder.fromConnectionFactory(connectionFactory)
-                .cacheDefaults(redisCacheConfiguration)
+    public ObjectMapper cacheObjectMapper() {
+        return new ObjectMapper();
+    }
+
+    @Bean
+    public CacheManager cacheManager(RedisConnectionFactory cf, ObjectMapper cacheObjectMapper) {
+        var keySer = new StringRedisSerializer();
+
+        // 1) 타입 고정 직렬화기: 생성자에서 타입과 Mapper를 함께 지정
+        var booksValueSer = new Jackson2JsonRedisSerializer<>(cacheObjectMapper, BookResponseDTO.class);
+
+        RedisCacheConfiguration booksConfig = RedisCacheConfiguration.defaultCacheConfig()
+                .serializeKeysWith(RedisSerializationContext.SerializationPair.fromSerializer(keySer))
+                .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(booksValueSer))
+                .entryTtl(Duration.ofMinutes(10));
+
+        Map<String, RedisCacheConfiguration> cacheConfigs = new HashMap<>();
+        cacheConfigs.put("books", booksConfig);
+
+        return RedisCacheManager.builder(cf)
+                .withInitialCacheConfigurations(cacheConfigs)
                 .build();
     }
 }

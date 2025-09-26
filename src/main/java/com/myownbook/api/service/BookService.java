@@ -12,6 +12,7 @@ import com.myownbook.api.repository.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -64,11 +65,13 @@ public class BookService {
         return repository.searchAllBooksAsDto(titleParam, authorParam, categoryParam, recommendParam, pageable);
     }
 
+    @Cacheable(value = "books", key = "#id", unless = "#result == null")
     public BookResponseDTO findById(Long id) {
         Book findBook = repository.findById(id).orElseThrow(() -> new IllegalArgumentException("해당 id의 도서가 존재하지 않습니다."));
         return makeResponseBook(findBook);
     }
 
+    @Cacheable(value = "books", key = "#isbn", unless = "#result == null")
     public BookResponseDTO findByIsbn(String isbn) {
         Book findBook = repository.findByIsbn(isbn).orElseThrow(() -> new IllegalArgumentException("해당 isbn의 도서가 존재하지 않습니다."));
         return makeResponseBook(findBook);
