@@ -34,6 +34,10 @@ spring:
       pageable:
         serialization-mode: via_dto
 
+    redis:
+      host: localhost
+      port: 6379
+
 springdoc:
   swagger-ui:
     tags-sorter: alpha
@@ -47,7 +51,6 @@ springdoc:
   model-and-view-allowed: true
   paths-to-match:
     - /books/**
-
 
 app:
   security:
@@ -69,6 +72,7 @@ logging:
         query:
           hql: debug
           sqm: debug
+
 
 
 
