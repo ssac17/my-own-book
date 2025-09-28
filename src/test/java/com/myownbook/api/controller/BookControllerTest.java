@@ -7,7 +7,7 @@ import com.myownbook.api.dto.BookSearchCondition;
 import com.myownbook.api.dto.UserDTO;
 import com.myownbook.api.model.Category;
 import com.myownbook.api.model.RoleEnum;
-import com.myownbook.api.security.SecurityConfig;
+import com.myownbook.api.config.SecurityConfig;
 import com.myownbook.api.service.BookService;
 import com.myownbook.api.service.UserService;
 import org.hamcrest.CoreMatchers;

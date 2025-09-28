@@ -1,4 +1,4 @@
-package com.myownbook.api.redis;
+package com.myownbook.api.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.myownbook.api.dto.BookResponseDTO;
