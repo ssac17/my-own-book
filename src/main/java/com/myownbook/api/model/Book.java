@@ -38,6 +38,10 @@ public class Book {
     @JoinColumn(name = "users_id")
     private User users;
 
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "image_id")
+    private BookImage images;
+
     public User getUser() {
         return users;
     }

@@ -1,6 +1,7 @@
 package com.myownbook.api.model;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
@@ -9,6 +10,9 @@ import jakarta.persistence.Table;
 public class BookImage {
 
     @Id
+    @GeneratedValue
+    private Long id;
+
     private String imagePath;
 
     private String thumbnailPath;
