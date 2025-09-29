@@ -15,6 +15,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.h2.H2ConsoleProperties;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.context.annotation.Import;
@@ -64,6 +65,11 @@ class BookControllerTest {
     @MockitoBean
     private UserService userService;
 
+    @Value("${upload.image.path}")
+    private String imagePath;
+    @Value("${upload.thumbnail.path}")
+    private String thumbnailPath;
+
     @BeforeEach
     void userSetUp() {
         //mocking을 위한 BookDTO 생성
@@ -72,7 +78,7 @@ class BookControllerTest {
                 .setPublicationDate("2025").setCategory("FICTION").setRecommend((byte) 5);
         // Mocking을 위한 BookResponseDTO 객체 생성 (HATEOAS 링크 포함)
         bookResponseDTO = new BookResponseDTO(1L, "테스트 제목", "테스트 저자", "979-119-326-265-8",
-                "2025", Category.FICTION, (byte) 5, 1L, "testuser", RoleEnum.USER);
+                "2025", Category.FICTION, (byte) 5,1L, imagePath, thumbnailPath,  1L, "testuser", RoleEnum.USER);
         bookResponseDTO.add(linkTo(methodOn(BookController.class).getBookById(1L)).withSelfRel());
         bookResponseDTO.add(linkTo(methodOn(BookController.class).findAll(new BookSearchCondition(), Pageable.unpaged())).withRel("all-books"));
         bookResponseDTO.add(linkTo(methodOn(BookController.class).updateBook(1L, null)).withRel("update-book"));
@@ -170,7 +176,8 @@ class BookControllerTest {
                 .andExpect(jsonPath("$.page.totalElements").value(1))
                 .andExpect(jsonPath("$.page.totalPages").value(1))
                 .andExpect(jsonPath("$.page.number").value(0))
-                .andExpect(jsonPath("$._links.self.href").exists());
+                .andExpect(jsonPath("$._links.self.href").exists())
+                .andExpect(jsonPath("$._embedded.bookResponseDTOList[0].image").exists());
     }
 
     @Test
@@ -253,7 +260,9 @@ class BookControllerTest {
                 .andExpect(jsonPath("$._links.self.href").exists())
                 .andExpect(jsonPath("$._links.all-books.href").exists())
                 .andExpect(jsonPath("$._links.update-book.href").exists())
-                .andExpect(jsonPath("$._links.delete-book.href").exists());
+                .andExpect(jsonPath("$._links.delete-book.href").exists())
+                .andExpect(jsonPath("$.image").exists());
+
     }
 
     @Test
@@ -289,7 +298,8 @@ class BookControllerTest {
                 .andExpect(jsonPath("$._links.self.href").exists())
                 .andExpect(jsonPath("$._links.all-books.href").exists())
                 .andExpect(jsonPath("$._links.update-book.href").exists())
-                .andExpect(jsonPath("$._links.delete-book.href").exists());
+                .andExpect(jsonPath("$._links.delete-book.href").exists())
+                .andExpect(jsonPath("$.image").exists());
     }
 
     @Test

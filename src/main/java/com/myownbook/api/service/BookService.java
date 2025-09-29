@@ -1,23 +1,18 @@
 package com.myownbook.api.service;
 
-import com.myownbook.api.dto.BookResponseDTO;
-import com.myownbook.api.dto.BookSearchCondition;
-import com.myownbook.api.dto.UserDTO;
+import com.myownbook.api.dto.*;
 import com.myownbook.api.model.Book;
-import com.myownbook.api.dto.BookDTO;
 import com.myownbook.api.model.Category;
 import com.myownbook.api.model.User;
 import com.myownbook.api.repository.BookRepository;
+import com.myownbook.api.repository.ImageRepository;
 import com.myownbook.api.repository.UserRepository;
-import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -28,13 +23,15 @@ import java.util.Objects;
 @Service
 public class BookService {
 
-    private BookRepository repository;
-    private UserRepository userRepository;
+    private final BookRepository repository;
+    private final UserRepository userRepository;
+    private final ImageRepository imageRepository;
     private Logger log = LoggerFactory.getLogger(getClass());
 
-    public BookService(BookRepository repository, UserRepository userRepository) {
+    public BookService(BookRepository repository, UserRepository userRepository, ImageRepository imageRepository) {
         this.repository = repository;
         this.userRepository = userRepository;
+        this.imageRepository = imageRepository;
     }
 
     public BookResponseDTO insert(BookDTO bookDTO) {
@@ -154,6 +151,7 @@ public class BookService {
         BookResponseDTO bookResponseDTO = new BookResponseDTO();
         BeanUtils.copyProperties(findBook, bookResponseDTO);
         bookResponseDTO.setUser(new UserDTO(findBook));
+        bookResponseDTO.setImage(new ImageDTO(findBook));
         return bookResponseDTO;
     }
 }

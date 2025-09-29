@@ -40,7 +40,7 @@ public class Book {
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "image_id")
-    private BookImage images;
+    private BookImage image;
 
     public User getUser() {
         return users;
@@ -100,6 +100,14 @@ public class Book {
 
     public void setRecommend(byte recommend) {
         this.recommend = recommend;
+    }
+
+    public BookImage getImage() {
+        return image;
+    }
+
+    public void setImage(BookImage image) {
+        this.image = image;
     }
 
     @Override

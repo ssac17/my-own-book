@@ -21,8 +21,9 @@ public interface BookRepository extends JpaRepository<Book, Long>{
     Optional<Book> findByIsbn(String isbn);
 
     @Query("select new com.myownbook.api.dto.BookResponseDTO(" +
-            "b.id, b.title, b.author, b.isbn, b.publicationDate, b.category, b.recommend," +
-            " b.users.id, b.users.username, b.users.role) " +
+            "b.id, b.title, b.author, b.isbn, b.publicationDate, b.category, b.recommend, " +
+            "b.image.id, b.image.imagePath, b.image.thumbnailPath, " +
+            "b.users.id, b.users.username, b.users.role) " +
             "from Book b " +
             "where " +
             "   (:title is null or :title = '' or b.title like %:title%) and" +

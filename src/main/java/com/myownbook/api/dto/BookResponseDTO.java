@@ -12,11 +12,12 @@ public class BookResponseDTO extends RepresentationModel<BookResponseDTO> {
     private String publicationDate;
     private Category category;
     private byte recommend;
+    private ImageDTO image;
     private UserDTO user;
 
     public BookResponseDTO() {}
 
-    public BookResponseDTO(Long id, String title, String author, String isbn, String publicationDate, Category category, byte recommend, Long userId, String username, RoleEnum role) {
+    public BookResponseDTO(Long id, String title, String author, String isbn, String publicationDate, Category category, byte recommend, Long imageId, String imagePath, String  thumbnailPath,  Long userId, String username, RoleEnum role) {
         this.id = id;
         this.title = title;
         this.author = author;
@@ -24,6 +25,7 @@ public class BookResponseDTO extends RepresentationModel<BookResponseDTO> {
         this.publicationDate = publicationDate;
         this.category = category;
         this.recommend = recommend;
+        this.image = new ImageDTO(imageId, imagePath, thumbnailPath);
         this.user = new UserDTO(userId, username, role);
     }
 
@@ -90,6 +92,15 @@ public class BookResponseDTO extends RepresentationModel<BookResponseDTO> {
         return this;
     }
 
+    public ImageDTO getImage() {
+        return image;
+    }
+
+    public BookResponseDTO setImage(ImageDTO image) {
+        this.image = image;
+        return this;
+    }
+
     public UserDTO getUser() {
         return user;
     }
@@ -109,6 +120,7 @@ public class BookResponseDTO extends RepresentationModel<BookResponseDTO> {
                 ", publicationDate='" + publicationDate + '\'' +
                 ", category=" + category +
                 ", recommend=" + recommend +
+                ", image=" + image +
                 ", user=" + user +
                 '}';
     }

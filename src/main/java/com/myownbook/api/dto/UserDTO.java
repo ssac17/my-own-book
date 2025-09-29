@@ -8,9 +8,6 @@ public class UserDTO {
     private String username;
     private RoleEnum role;
 
-    public UserDTO() {
-    }
-
     public UserDTO(Long id, String username, RoleEnum role) {
         this.id = id;
         this.username = username;
