@@ -1,15 +1,15 @@
 INSERT INTO users (username, password, role) VALUES ('sky', '$2a$10$3DGWrM8HOLvGOD9ACZwSU.jpgMCTB.NN2Wq7d7G8bDho6hig9z93q', 'USER');
 
-insert into image (id,image_path, thumbnail_path) values (1, '/Users/sky/my-own-book/src/main/resources/static/image/하늘과_바람과_별과_시.jpeg', '');
-insert into image (id,image_path, thumbnail_path) values (2, '/Users/sky/my-own-book/src/main/resources/static/image/가면산장_살인사건.jpeg', '');
-insert into image (id,image_path, thumbnail_path) values (3, '/Users/sky/my-own-book/src/main/resources/static/image/호의에_대하여.jpeg', '');
-insert into image (id,image_path, thumbnail_path) values (4, '/Users/sky/my-own-book/src/main/resources/static/image/가공범.jpeg', '');
-insert into image (id,image_path, thumbnail_path) values (5, '/Users/sky/my-own-book/src/main/resources/static/image/내가_없던_어느_밤에.jpeg', '');
-insert into image (id,image_path, thumbnail_path) values (6, '/Users/sky/my-own-book/src/main/resources/static/image/첫_여름_완주.jpeg', '');
-insert into image (id,image_path, thumbnail_path) values (7, '/Users/sky/my-own-book/src/main/resources/static/image/혼자_공부하는_파이썬.jpeg', '');
-insert into image (id,image_path, thumbnail_path) values (8, '/Users/sky/my-own-book/src/main/resources/static/image/치즈_이야기.jpeg', '');
-insert into image (id,image_path, thumbnail_path) values (9, '/Users/sky/my-own-book/src/main/resources/static/image/채식주의자.jpeg', '');
-insert into image (id,image_path, thumbnail_path) values (10, '/Users/sky/my-own-book/src/main/resources/static/image/주술회전_30_더블특장판.jpeg', '');
+insert into image (image_path, thumbnail_path) values ('/Users/sky/my-own-book/src/main/resources/static/image/하늘과_바람과_별과_시.jpeg', '');
+insert into image (image_path, thumbnail_path) values ('/Users/sky/my-own-book/src/main/resources/static/image/가면산장_살인사건.jpeg', '');
+insert into image (image_path, thumbnail_path) values ('/Users/sky/my-own-book/src/main/resources/static/image/호의에_대하여.jpeg', '');
+insert into image (image_path, thumbnail_path) values ('/Users/sky/my-own-book/src/main/resources/static/image/가공범.jpeg', '');
+insert into image (image_path, thumbnail_path) values ('/Users/sky/my-own-book/src/main/resources/static/image/내가_없던_어느_밤에.jpeg', '');
+insert into image (image_path, thumbnail_path) values ('/Users/sky/my-own-book/src/main/resources/static/image/첫_여름_완주.jpeg', '');
+insert into image (image_path, thumbnail_path) values ('/Users/sky/my-own-book/src/main/resources/static/image/혼자_공부하는_파이썬.jpeg', '');
+insert into image (image_path, thumbnail_path) values ('/Users/sky/my-own-book/src/main/resources/static/image/치즈_이야기.jpeg', '');
+insert into image (image_path, thumbnail_path) values ('/Users/sky/my-own-book/src/main/resources/static/image/채식주의자.jpeg', '');
+insert into image (image_path, thumbnail_path) values ('/Users/sky/my-own-book/src/main/resources/static/image/주술회전_30_더블특장판.jpeg', '');
 
 
 insert into books(title, author, category, isbn, publication_date, recommend, users_id, image_id) values ('하늘과 바람과 별과 시', '윤동주', 'POEM', '978-161-729-045-9', '1948', 1, 1, 1);

@@ -1,6 +1,5 @@
 package com.myownbook.api.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
@@ -38,7 +37,7 @@ public class Book {
     @JoinColumn(name = "users_id")
     private User users;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "image_id")
     private BookImage image;
 

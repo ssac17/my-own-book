@@ -1,21 +1,25 @@
 package com.myownbook.api.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "image")
 public class BookImage {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String imagePath;
 
     private String thumbnailPath;
+
+    public BookImage(String imagePath, String thumbnailPath) {
+        this.imagePath = imagePath;
+        this.thumbnailPath = thumbnailPath;
+    }
+
+    public BookImage() {}
 
     public Long getId() {
         return id;

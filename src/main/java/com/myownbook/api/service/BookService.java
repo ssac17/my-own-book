@@ -1,7 +1,9 @@
 package com.myownbook.api.service;
 
+import com.myownbook.api.config.ImageConfig;
 import com.myownbook.api.dto.*;
 import com.myownbook.api.model.Book;
+import com.myownbook.api.model.BookImage;
 import com.myownbook.api.model.Category;
 import com.myownbook.api.model.User;
 import com.myownbook.api.repository.BookRepository;
@@ -17,6 +19,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Objects;
 
@@ -26,18 +29,17 @@ public class BookService {
     private final BookRepository repository;
     private final UserRepository userRepository;
     private final ImageRepository imageRepository;
+    private final ImageConfig imageConfig;
     private Logger log = LoggerFactory.getLogger(getClass());
 
-    public BookService(BookRepository repository, UserRepository userRepository, ImageRepository imageRepository) {
+    public BookService(BookRepository repository, UserRepository userRepository, ImageRepository imageRepository, ImageConfig imageConfig) {
         this.repository = repository;
         this.userRepository = userRepository;
         this.imageRepository = imageRepository;
+        this.imageConfig = imageConfig;
     }
 
-    public BookResponseDTO insert(BookDTO bookDTO) {
-        Book newBook = new Book();
-        BeanUtils.copyProperties(bookDTO, newBook);
-        newBook.setCategory(setCategory(bookDTO));
+    public BookResponseDTO insert(BookDTO bookDTO, MultipartFile image) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if(authentication == null || !authentication.isAuthenticated()) {
             throw new IllegalStateException("책 등록은 로그인 후 이용해주세요");
@@ -47,7 +49,17 @@ public class BookService {
         if(Objects.isNull(findUser)) {
             throw new IllegalArgumentException("인증된 사용자 정보를 찾을 수 없습니다: " + username);
         }
+        Book newBook = new Book();
+        BeanUtils.copyProperties(bookDTO, newBook);
+        newBook.setCategory(setCategory(bookDTO));
         newBook.setUser(findUser);
+
+
+        if(image != null && !image.isEmpty()) {
+            String imageUrl = imageConfig.save(image);
+            newBook.setImage(new BookImage(imageUrl, ""));
+        }
+
         repository.save(newBook);
         return makeResponseBook(newBook);
     }
@@ -151,7 +163,9 @@ public class BookService {
         BookResponseDTO bookResponseDTO = new BookResponseDTO();
         BeanUtils.copyProperties(findBook, bookResponseDTO);
         bookResponseDTO.setUser(new UserDTO(findBook));
-        bookResponseDTO.setImage(new ImageDTO(findBook));
+        if(findBook.getImage() != null) {
+            bookResponseDTO.setImage(new ImageDTO(findBook));
+        }
         return bookResponseDTO;
     }
 }

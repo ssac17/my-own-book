@@ -27,8 +27,10 @@ import org.springframework.hateoas.PagedModel;
 import org.springframework.hateoas.RepresentationModel;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
@@ -49,14 +51,16 @@ public class BookController {
         this.pagedResourcesAssembler = pagedResourcesAssembler;
     }
 
-    @PostMapping("/add")
+    @PostMapping(value = "/add", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @Operation(summary = "도서 생성", description = "새로운 도서를 등록합니다.", operationId = "1_addBook")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "success", content = {@Content(schema = @Schema(implementation = Book.class))}),
             @ApiResponse(responseCode = "400", description = "bad request")
     })
-    public ResponseEntity<BookResponseDTO> add(@RequestBody @Valid BookDTO bookDTO) {
-        BookResponseDTO responseDTO = service.insert(bookDTO);
+    public ResponseEntity<BookResponseDTO> add(@ModelAttribute @Valid BookDTO bookDTO,
+                                               @Parameter(description = "도서 이미지 파일")
+                                               @RequestParam(value = "file", required = false) MultipartFile file) {
+        BookResponseDTO responseDTO = service.insert(bookDTO, file);
         return ResponseEntity.status(HttpStatus.CREATED).body(assembler.toModel(responseDTO));
     }
 
