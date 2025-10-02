@@ -75,9 +75,9 @@ logging:
 
 upload:
   image:
-    path: /Users/sky/my-own-book/src/main/resources/static/image
+    path: "${user.dir}/upload/image"
   thumbnail:
-    path: /Users/sky/my-own-book/src/main/resources/static/thumbnail
+    path: "${user.dir}/upload/thumbnail"
 
 
 

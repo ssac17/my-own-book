@@ -3,6 +3,7 @@ package com.myownbook.api.config;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -63,6 +64,8 @@ public class SecurityConfig {
                 .cors(Customizer.withDefaults())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(req -> req.requestMatchers(toH2Console()).permitAll()
+                .requestMatchers("/static/**").permitAll()
+                .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
                 .requestMatchers("/swagger-ui/**", "/swagger-resources/**","/v3/api-docs/**", HttpMethod.GET.name()).permitAll()
                 .requestMatchers(HttpMethod.POST, "/users/signup").permitAll()
                 .requestMatchers(HttpMethod.POST,"/users/login").permitAll()
