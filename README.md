@@ -9,6 +9,8 @@
 - ORM: Spring Data JPA
 - 빌드: Gradle
 
+초기 데이터는 src/main/resources/[data.sql](https://github.com/ssac17/my-own-book/blob/main/src/main/resources/data.sql)에 작성하였습니다.
+
 ---
 ## 유저 api
 
