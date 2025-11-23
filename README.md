@@ -1,6 +1,9 @@
 # :books:도서 api
-도서 추천 서비스를 구현한 프로젝트입니다. (추천 기능은 추후 추가 예정)<br>
-기본적인 Create, Read, Update, Delete 기능을 구현했으며,<br> JWT 토큰을 사용한 로그인 기능과 토큰 인증을 한 사용자만 CRUD가 가능하도록 구현하였습니다.
+도서 추천 서비스를 구현한 프로젝트입니다. (추천 기능은 추후 추가 예정)
+
+기본적인 Create, Read, Update, Delete 기능을 구현했으며,
+
+JWT 토큰을 사용한 로그인 기능과 토큰 인증을 한 사용자만 CRUD가 가능하도록 구현하였습니다.
 
 ## :computer:	기술 스텍
 - 프레임워크: Spring Boot 3.5.5
@@ -11,23 +14,30 @@
 
 초기 데이터는 [src/main/resources/data.sql](https://github.com/ssac17/my-own-book/blob/main/src/main/resources/data.sql)에 작성하였습니다.
 
----
+## 목차
+[회원 가입](#회원-가입)
+
+[로그인](#로그인)
+
+
 ## :tipping_hand_person:	유저 api
 
 ### 회원 가입
 >요청
-- URL: /users/signup<br>
-- HTTP Method: POST<br>
+- URL: /users/signup
+- HTTP Method: POST
 - Body
+
 ```json
 {
     "username": "user",
     "password": "1234"
 }
 ```
+
 >응답
-1. 이미 등록된 유저가 있는 경우<br/>
-- 응답 코드: <span>$\color{red}400 -Bad Request$</span><br/>
+1. 이미 등록된 유저가 있는 경우
+- 응답 코드: <span>$\color{red}400 -Bad Request$</span>
 
 ```json
 {
@@ -35,14 +45,13 @@
     "message": "이미 등록된 유저입니다."
 }
 ```
-<br/>
+
 <img width="1074" height="474" alt="스크린샷 2025-11-22 오후 4 22 11" src="https://github.com/user-attachments/assets/ce65f40f-c940-41a8-a646-9b78f52706df" />
-<br/>
-<br/>
 
-2. 회원 가입 성공시<br/>
 
--  응답 코드: <span>$\color{green}200 - OK$</span><br/>
+2. 회원 가입 성공시
+
+-  응답 코드: <span>$\color{green}200 - OK$</span>
 
 ```json
 {
@@ -61,7 +70,7 @@
 - URL: /users/login<br>
 - HTTP Method: POST<br>
 - Body
-- 
+
 ```json
 {
     "username": "user",
@@ -83,7 +92,7 @@
 <img width="1072" height="452" alt="스크린샷 2025-11-22 오후 4 39 20" src="https://github.com/user-attachments/assets/e4c81422-df07-4f9c-8cd5-bcfefd3dc301" />
 
 2. 로그인 성공시
--  응답 코드: <span>$\color{green}200 - OK$</span><br/>
+-  응답 코드: <span>$\color{green}200 - OK$</span>
 ```json
 {
     "message": "로그인 성공!",
