@@ -89,10 +89,11 @@ jwt토큰으로 구현한 회원가입과 로그인 기능은 [스프링 6와 �
 <img width="1061" height="691" alt="스크린샷 2025-11-22 오후 4 30 06" src="https://github.com/user-attachments/assets/ae845cea-ea68-445c-88b3-c646f2eb78d0" />
 
 <br/><br/>
-<p align="right">
-    <a url="#목차">:pushpin:<span>$\color{blue}목차로$</span></a>
-</p>
-
+<div align="right">
+    
+[**:pushpin:목차로**](#:회원-가입)
+    
+</div>
 
 
 ### 로그인
