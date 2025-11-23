@@ -33,7 +33,7 @@ jwt토큰으로 구현한 회원가입과 로그인 기능은 [스프링 6와 �
 
 [com/myownbook.api.service.UserService](https://github.com/ssac17/my-own-book/blob/main/src/main/java/com/myownbook/api/service/UserService.java)
 
-[com/myownbook.api.security.JwtManager]((https://github.com/ssac17/my-own-book/blob/main/src/main/java/com/myownbook/api/security/JwtManager.java))
+[com/myownbook.api.security.JwtManager](https://github.com/ssac17/my-own-book/blob/main/src/main/java/com/myownbook/api/security/JwtManager.java)
 
 
 
