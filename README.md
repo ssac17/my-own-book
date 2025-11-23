@@ -19,7 +19,7 @@ JWT 토큰을 사용한 로그인 기능과 토큰 인증을 한 사용자만 CR
 ## :pushpin: 목차
 [**회원 가입**](#회원-가입) | [**로그인**](#로그인)
 
-[**전체 조회**](#전체-조회) | [**id, isbn으로 도서 조회**](#id-isbn으로-도서-조회) | [**도서 등록**](#도서-등록) | [**도서 수정**](#도서-수정)
+[**전체 조회**](#전체-조회) | [**id, isbn으로 도서 조회**](#id-isbn으로-도서-조회) | [**도서 등록**](#도서-등록) | [**도서 수정**](#도서-수정) | [**도서 삭제**](#도서-삭제)
 
 
 <br/>
@@ -411,6 +411,104 @@ file=공허의_시대.jpeg
 
 
 ### 도서 수정
+
+
+>요청
+
+- URL: books/{id}
+- HTTP Method: PATCH
+- Bearer Token : eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJ1c2VyIiwicm9sZXMiOlsiVVNFUiJdLCJpc3Mi...
+- Body
+
+```json
+{
+    "title": "제목 수정",
+    "author": "저자 수정",
+    "category": "HOBBY",
+    "isbn": "978-890-129-700-2",
+    "publicationDate": "2025",
+    "recommend": 3
+}
+```
+
+</br>
+
+>응답
+-  응답 코드: <span>$\color{green}200 - OK$</span>
+
+```json
+{
+    "id": 1,
+    "title": "제목 수정",
+    "author": "저자 수정",
+    "isbn": "978-890-129-700-2",
+    "publicationDate": "2025",
+    "category": "HOBBY",
+    "recommend": 3,
+    "image": {
+        "id": 1,
+        "imagePath": "/static/image/하늘과_바람과_별과_시.jpeg",
+        "thumbnailPath": ""
+    },
+    "user": {
+        "id": 1,
+        "username": "sky",
+        "role": "ROLE_USER"
+    },
+    "_links": {
+        "self": {
+            "href": "http://localhost:8080/books/id/1"
+        },
+        "all-books": {
+            "href": "http://localhost:8080/books"
+        },
+        "update-book": {
+            "href": "http://localhost:8080/books/1"
+        },
+        "delete-book": {
+            "href": "http://localhost:8080/books/1"
+        }
+    }
+}
+```
+
+<img width="1070" height="1024" alt="스크린샷 2025-11-23 오후 7 41 42" src="https://github.com/user-attachments/assets/c3640854-6ae2-48ea-8b38-a22a0b59fe6f" />
+
+<br/><br/>
+
+<div align="right">
+    
+[**:pushpin: 목차로**](#pushpin-목차)
+
+</div>
+
+### 도서 삭제
+
+도서 삭제시에는 Body를 반환하지 않고 header에 location으로 돌아갈 도서 전체 조회 url을 넣어 주었습니다
+
+>요청
+
+- URL: books/{id}
+- HTTP Method: DELETE
+- Bearer Token : eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJ1c2VyIiwicm9sZXMiOlsiVVNFUiJdLCJpc3Mi...
+
+>응답
+-  응답 코드: <span>$\color{green}204 - No Content$</span>
+
+<img width="1075" height="497" alt="스크린샷 2025-11-23 오후 7 48 17" src="https://github.com/user-attachments/assets/1ab3a8a8-ca74-4efa-b871-68d9d85515bd" />
+
+
+<br/><br/>
+
+<div align="right">
+    
+[**:pushpin: 목차로**](#pushpin-목차)
+
+</div>
+
+
+
+
 
 
 
