@@ -23,6 +23,20 @@ JWT 토큰을 사용한 로그인 기능과 토큰 인증을 한 사용자만 CR
 ## :tipping_hand_person:	유저 api
 
 ### 회원 가입
+spring-boot-starter-oauth2-resource-server와 auto0:java-jwt를 추가하여 구현했습니다.
+
+jwt토큰으로 구현한 회원가입과 로그인 기능은 [스프링 6와 스프링 부트 3로 배우는 모던 API 개발](https://wikibook.co.kr/spring-api-dev/) 책을 참고로 구현했습니다.
+
+아래는 구현한 클래스입니다
+
+[com.myownbook.api.config.SecurityConfig](https://github.com/ssac17/my-own-book/blob/main/src/main/com/myownbook/api/config/SecurityConfig.java)
+
+[com/myownbook.api.service](https://github.com/ssac17/my-own-book/blob/main/src/main/com/myownbook/api/config/UserService.java)
+
+[src/main/resources/data.sql](https://github.com/ssac17/my-own-book/blob/main/src/main/resources/data.sql)
+
+
+
 >요청
 - URL: /users/signup
 - HTTP Method: POST
