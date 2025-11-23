@@ -1,4 +1,4 @@
-# :books:도서 api
+# :books:도서 추천 api
 도서 추천 서비스를 구현한 프로젝트입니다. (추천 기능은 추후 추가 예정)
 
 기본적인 Create, Read, Update, Delete 기능을 구현했으며,
@@ -20,6 +20,9 @@ JWT 토큰을 사용한 로그인 기능과 토큰 인증을 한 사용자만 CR
 [회원 가입](#회원-가입)
 
 [로그인](#로그인)
+
+---
+
 
 
 <br/>
@@ -142,5 +145,121 @@ jwt토큰으로 구현한 회원가입과 로그인 기능은 [스프링 6와 �
 
 
 <br/><br/>
+
+## :books:도서 api
+
+<br/>
+
+### 전체 조회
+
+<br/>
+
+>요청
+- URL: /books
+- HTTP Method: GET
+
+<br/>
+
+>응답
+
+-  응답 코드: <span>$\color{green}200 - OK$</span>
+
+```json
+{
+    "_embedded": {
+        "bookResponseDTOList": [
+            {
+                "id": 10,
+                "title": "주술회전 30 더블특장판",
+                "author": "아쿠타미 게게",
+                "isbn": "979-114-280-355-0",
+                "publicationDate": "2025",
+                "category": "CARTOON",
+                "recommend": 4,
+                "image": {
+                    "id": 10,
+                    "imagePath": "/static/image/주술회전_30_더블특장판.jpeg",
+                    "thumbnailPath": ""
+                },
+                "user": {
+                    "id": 1,
+                    "username": "sky",
+                    "role": "ROLE_USER"
+                },
+                "_links": {
+                    "self": {
+                        "href": "http://localhost:8080/books/id/10"
+                    },
+                    "all-books": {
+                        "href": "http://localhost:8080/books"
+                    },
+                    "update-book": {
+                        "href": "http://localhost:8080/books/10"
+                    },
+                    "delete-book": {
+                        "href": "http://localhost:8080/books/10"
+                    }
+                }
+            },
+                ... 생략
+            {
+                "id": 6,
+                "title": "첫 여름, 완주",
+                "author": "김금희",
+                "isbn": "979-119-722-198-9",
+                "publicationDate": "2025",
+                "category": "NOVEL",
+                "recommend": 4,
+                "image": {
+                    "id": 6,
+                    "imagePath": "/static/image/첫_여름_완주.jpeg",
+                    "thumbnailPath": ""
+                },
+                "user": {
+                    "id": 1,
+                    "username": "sky",
+                    "role": "ROLE_USER"
+                },
+                "_links": {
+                    "self": {
+                        "href": "http://localhost:8080/books/id/6"
+                    },
+                    "all-books": {
+                        "href": "http://localhost:8080/books"
+                    },
+                    "update-book": {
+                        "href": "http://localhost:8080/books/6"
+                    },
+                    "delete-book": {
+                        "href": "http://localhost:8080/books/6"
+                    }
+                }
+            }
+        ]
+    },
+    "_links": {
+        "first": {
+            "href": "http://localhost:8080/books?page=0&size=5&sort=id,desc"
+        },
+        "self": {
+            "href": "http://localhost:8080/books"
+        },
+        "next": {
+            "href": "http://localhost:8080/books?page=1&size=5&sort=id,desc"
+        },
+        "last": {
+            "href": "http://localhost:8080/books?page=1&size=5&sort=id,desc"
+        }
+    },
+    "page": {
+        "size": 5,
+        "totalElements": 10,
+        "totalPages": 2,
+        "number": 0
+    }
+}
+```
+
+
 
 
