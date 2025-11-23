@@ -162,11 +162,15 @@ Pageable 인터페이스로 페이징처리 하였으며, 페이지당 5건, 생
 
 RepresentationModelAssemblerSupport 추상 클래스를 상속받아 자신, 모든 책, update, delete url을 응답에 담았습니다.
 
-아래는 도서 CURD 관련 구현한 클래스입니다
+아래는 도서 CURD 관련 구현한 주요 클래스입니다
 
 [com.myownbook.api.controller.BookController](https://github.com/ssac17/my-own-book/blob/main/src/main/java/com/myownbook/api/controller/BookController.java)
 
+[com.myownbook.api.service.BookService](https://github.com/ssac17/my-own-book/blob/main/src/main/java/com/myownbook/api/service/BookService.java)
 
+[com.myownbook.api.controller.BookResponseDTOAssembler](https://github.com/ssac17/my-own-book/blob/main/src/main/java/com/myownbook/api/controller/BookResponseDTOAssembler.java)
+
+[com.myownbook.api.config.ImageConfig](https://github.com/ssac17/my-own-book/blob/main/src/main/java/com/myownbook/api/config/ImageConfig.java)
 
 <br/>
 
