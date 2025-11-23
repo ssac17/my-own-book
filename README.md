@@ -25,9 +25,7 @@ JWT 토큰을 사용한 로그인 기능과 토큰 인증을 한 사용자만 CR
 
 [**id, isbn으로 도서 조회**](#id-isbn으로-도서-조회)
 
-
----
-
+[**도서 등록**](#도서-등록)
 
 
 <br/>
@@ -287,6 +285,9 @@ id로 조회, isbn 조회는 단순 조회로 postman 캡처본만 첨부 하겠
 
 <br/>
 
+>응답
+
+
 <img width="1073" height="885" alt="스크린샷 2025-11-23 오후 4 04 40" src="https://github.com/user-attachments/assets/1ff24f10-c123-4973-a651-3fc29dd1a063" />
 
 <br/>
@@ -295,7 +296,77 @@ id로 조회, isbn 조회는 단순 조회로 postman 캡처본만 첨부 하겠
 
 <br/><br/>
 
+### 도서 등록
 
+도서 등록 경우 로그인 후 가능 하므로 Bearer Token을 넣고 요청합니다.
+도서 이미지를 추가 하기 위해 form 데이터로 요청합니다.
+
+<br/>
+>요청
+
+- URL: /books/add
+- HTTP Method: POST
+- Bearer Token : eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJ1c2VyIiwicm9sZXMiOlsiVVNFUiJdLCJpc3Mi...
+- form
+
+```from
+title='공허의 시대',
+author='조남호',
+publicationDate=2025,
+category=HOBBY,
+recommend=2
+file=공허의_시대.jpeg
+```
+
+<br/>
+
+>응답
+-  응답 코드: <span>$\color{green}200 - OK$</span>
+
+```json
+{
+    "id": 11,
+    "title": "공허의 시대",
+    "author": "조남호",
+    "isbn": "978-890-129-700-2",
+    "publicationDate": "2025",
+    "category": "HOBBY",
+    "recommend": 2,
+    "image": {
+        "id": 11,
+        "imagePath": "/static/image/공허의_시대_9de1d9a4-2496-4432-9c0a-166d8aa85fae.jpeg",
+        "thumbnailPath": ""
+    },
+    "user": {
+        "id": 2,
+        "username": "user",
+        "role": "ROLE_USER"
+    },
+    "_links": {
+        "self": {
+            "href": "http://localhost:8080/books/id/11"
+        },
+        "all-books": {
+            "href": "http://localhost:8080/books"
+        },
+        "update-book": {
+            "href": "http://localhost:8080/books/11"
+        },
+        "delete-book": {
+            "href": "http://localhost:8080/books/11"
+        }
+    }
+}
+```
+
+
+<img width="1071" height="934" alt="스크린샷 2025-11-23 오후 4 28 34" src="https://github.com/user-attachments/assets/692c0a46-b713-48ae-9e99-1751929ad9fd" />
+
+
+<br/><br/>
+
+>이미지 추가 확인
+<img width="406" height="147" alt="스크린샷 2025-11-23 오후 4 28 46" src="https://github.com/user-attachments/assets/16ddb8e8-4321-4bfb-a6ed-6196ff322904" />
 
 
 
