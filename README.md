@@ -4,6 +4,7 @@
 기본적인 Create, Read, Update, Delete 기능을 구현했으며,
 
 JWT 토큰을 사용한 로그인 기능과 토큰 인증을 한 사용자만 CRUD가 가능하도록 구현하였습니다.
+<br/><br/>
 
 ## :computer:	기술 스텍
 - 프레임워크: Spring Boot 3.5.5
@@ -13,12 +14,16 @@ JWT 토큰을 사용한 로그인 기능과 토큰 인증을 한 사용자만 CR
 - 빌드: Gradle
 
 초기 데이터는 [src/main/resources/data.sql](https://github.com/ssac17/my-own-book/blob/main/src/main/resources/data.sql)에 작성하였습니다.
-
-## 목차
+<br/>
+<br/>
+## :pushpin: 목차
 [회원 가입](#회원-가입)
 
 [로그인](#로그인)
 
+
+<br/>
+<br/>
 
 ## :tipping_hand_person:	유저 api
 
@@ -27,7 +32,7 @@ spring-boot-starter-oauth2-resource-server와 auto0:java-jwt를 추가하여 구
 
 jwt토큰으로 구현한 회원가입과 로그인 기능은 [스프링 6와 스프링 부트 3로 배우는 모던 API 개발](https://wikibook.co.kr/spring-api-dev/) 책을 참고로 구현했습니다.
 
-아래는 구현한 클래스입니다
+아래는 회원 가입, 로그인 관련 구현한 클래스입니다
 
 [com.myownbook.api.config.SecurityConfig](https://github.com/ssac17/my-own-book/blob/main/src/main/java/com/myownbook/api/config/SecurityConfig.java)
 
@@ -36,8 +41,10 @@ jwt토큰으로 구현한 회원가입과 로그인 기능은 [스프링 6와 �
 [com/myownbook.api.security.JwtManager](https://github.com/ssac17/my-own-book/blob/main/src/main/java/com/myownbook/api/security/JwtManager.java)
 
 
+<br/>
 
 >요청
+
 - URL: /users/signup
 - HTTP Method: POST
 - Body
@@ -48,6 +55,7 @@ jwt토큰으로 구현한 회원가입과 로그인 기능은 [스프링 6와 �
     "password": "1234"
 }
 ```
+<br/>
 
 >응답
 1. 이미 등록된 유저가 있는 경우
@@ -62,6 +70,7 @@ jwt토큰으로 구현한 회원가입과 로그인 기능은 [스프링 6와 �
 
 <img width="1074" height="474" alt="스크린샷 2025-11-22 오후 4 22 11" src="https://github.com/user-attachments/assets/ce65f40f-c940-41a8-a646-9b78f52706df" />
 
+<br/><br/>
 
 2. 회원 가입 성공시
 
@@ -79,8 +88,14 @@ jwt토큰으로 구현한 회원가입과 로그인 기능은 [스프링 6와 �
 
 <img width="1061" height="691" alt="스크린샷 2025-11-22 오후 4 30 06" src="https://github.com/user-attachments/assets/ae845cea-ea68-445c-88b3-c646f2eb78d0" />
 
+<br/><br/>
+
 ### 로그인
+
+<br/>
+
 >요청
+
 - URL: /users/login<br>
 - HTTP Method: POST<br>
 - Body
@@ -92,7 +107,11 @@ jwt토큰으로 구현한 회원가입과 로그인 기능은 [스프링 6와 �
 }
 ```
 
+<br/>
+
 >응답
+
+
 1. 등록된 사용가 없는 경우
 -  응답 코드: <span>$\color{red}500 - Internal Server Error$</span><br/>
 
@@ -104,6 +123,8 @@ jwt토큰으로 구현한 회원가입과 로그인 기능은 [스프링 6와 �
 ```
 
 <img width="1072" height="452" alt="스크린샷 2025-11-22 오후 4 39 20" src="https://github.com/user-attachments/assets/e4c81422-df07-4f9c-8cd5-bcfefd3dc301" />
+
+<br/><br/>
 
 2. 로그인 성공시
 -  응답 코드: <span>$\color{green}200 - OK$</span>
@@ -119,5 +140,7 @@ jwt토큰으로 구현한 회원가입과 로그인 기능은 [스프링 6와 �
 
 <img width="1059" height="668" alt="스크린샷 2025-11-22 오후 4 46 48" src="https://github.com/user-attachments/assets/8217bdf1-ebfb-49dc-be57-e718462b6c0e" />
 
+
+<br/><br/>
 
 
