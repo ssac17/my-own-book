@@ -94,7 +94,7 @@ class BookControllerTest {
     @WithMockUser(username = "testuser", roles = "USER")
     void addBook_Success() throws Exception {
         // bookService.insert()가 호출될 때 testBookResponseDTO를 반환하도록 Mocking
-        when(bookService.insert(any(BookDTO.class))).thenReturn(bookResponseDTO);
+        when(bookService.insert(any(BookDTO.class), any(MultipartFile.class))).thenReturn(bookResponseDTO);
 
         //MockMvc를 사용하여 POST 요청 실행
         mockMvc.perform(post("/books/add")
@@ -135,7 +135,7 @@ class BookControllerTest {
     @Test
     @DisplayName("책 생성 - 실패: 401 Unauthorized 응답")
     void addZBook_noAuth() throws Exception{
-        when(bookService.insert(any(BookDTO.class))).thenReturn(bookResponseDTO);
+        when(bookService.insert(any(BookDTO.class), any(MultipartFile.class))).thenReturn(bookResponseDTO);
 
         mockMvc.perform(post("/books/add")
                 .contentType(MediaType.APPLICATION_JSON)

@@ -7,6 +7,7 @@ public class ImageDTO {
     private String imagePath;
     private String thumbnailPath;
 
+    public ImageDTO() {}
 
     public ImageDTO(Long id, String imagePath, String thumbnailPath) {
         this.id = id;
