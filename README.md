@@ -162,6 +162,12 @@ Pageable 인터페이스로 페이징처리 하였으며, 페이지당 5건, 생
 
 RepresentationModelAssemblerSupport 추상 클래스를 상속받아 자신, 모든 책, update, delete url을 응답에 담았습니다.
 
+아래는 도서 CURD 관련 구현한 클래스입니다
+
+[com.myownbook.api.controller.BookController](https://github.com/ssac17/my-own-book/blob/main/src/main/java/com/myownbook/api/controller/BookController.java)
+
+
+
 <br/>
 
 ### 전체 조회
@@ -367,6 +373,20 @@ file=공허의_시대.jpeg
 
 >이미지 추가 확인
 <img width="406" height="147" alt="스크린샷 2025-11-23 오후 4 28 46" src="https://github.com/user-attachments/assets/16ddb8e8-4321-4bfb-a6ed-6196ff322904" />
+
+<br/>
+<br/>
+
+응답 받은 imagePath 호출시 이미지를 불러올수 있습닏다.
+
+<br/>
+
+<img width="1070" height="649" alt="스크린샷 2025-11-23 오후 4 33 06" src="https://github.com/user-attachments/assets/cbab9594-e7c1-4f67-a377-1b51476ad162" />
+
+<br/><br/>
+
+
+
 
 
 
