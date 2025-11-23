@@ -21,6 +21,12 @@ JWT 토큰을 사용한 로그인 기능과 토큰 인증을 한 사용자만 CR
 
 [로그인](#로그인)
 
+[전체 조회](#전체-조회)
+
+
+[id,isbn으로 도서 조회](#id,-isbn으로-도서-조회)
+id, isbn으로 도서 조회
+
 ---
 
 
@@ -31,7 +37,7 @@ JWT 토큰을 사용한 로그인 기능과 토큰 인증을 한 사용자만 CR
 ## :tipping_hand_person:	유저 api
 
 ### 회원 가입
-spring-boot-starter-oauth2-resource-server와 auto0:java-jwt를 추가하여 구현했습니다.
+`spring-boot-starter-oauth2-resource-server`와 `com.auth0:java-jwt`를 추가하여 구현했습니다.
 
 jwt토큰으로 구현한 회원가입과 로그인 기능은 [스프링 6와 스프링 부트 3로 배우는 모던 API 개발](https://wikibook.co.kr/spring-api-dev/) 책을 참고로 구현했습니다.
 
@@ -150,6 +156,17 @@ jwt토큰으로 구현한 회원가입과 로그인 기능은 [스프링 6와 �
 
 <br/>
 
+
+조회는 비 로그인으로 조회 가능하도록 구현하였습니다.
+
+Pageable 인터페이스로 페이징처리 하였으며, 페이지당 5건, 생성된 id를 기준으로 내림차순으로 정렬하였습니다. 
+
+공통적으로 전체 조회, 단건 조회시 rest api의 구현 조건인 Hateoas를 만족하기 위해 `spring-boot-starter-hateoas`를 추가 하여 구현 했습니다.
+
+RepresentationModelAssemblerSupport 추상 클래스를 상속받아 자신, 모든 책, update, delete url을 응답에 담았습니다.
+
+<br/>
+
 ### 전체 조회
 
 <br/>
@@ -259,6 +276,27 @@ jwt토큰으로 구현한 회원가입과 로그인 기능은 [스프링 6와 �
     }
 }
 ```
+
+<img width="1064" height="802" alt="스크린샷 2025-11-23 오후 3 57 08" src="https://github.com/user-attachments/assets/e6f0bc45-cb61-4ee0-a52e-0ece3813407d" />
+
+<br/><br/>
+
+### id, isbn으로 도서 조회
+
+
+id로 조회, isbn 조회는 단순 조회로 postman 캡처본만 첨부 하겠습니다.
+
+<br/>
+
+<img width="1073" height="885" alt="스크린샷 2025-11-23 오후 4 04 40" src="https://github.com/user-attachments/assets/1ff24f10-c123-4973-a651-3fc29dd1a063" />
+
+<br/>
+
+<img width="1071" height="893" alt="스크린샷 2025-11-23 오후 4 05 10" src="https://github.com/user-attachments/assets/e6845f66-d917-4ed7-8707-9c7064749401" />
+
+<br/><br/>
+
+
 
 
 
